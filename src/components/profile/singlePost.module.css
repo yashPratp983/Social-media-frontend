@@ -1,0 +1,116 @@
+.profile{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.SinglePost{
+    width:calc(100%-460px);
+    position: relative;
+    margin: 80px auto 5px;
+    /* z-index: 1500; */
+    max-width: 600px;
+    padding: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 15px;
+    box-shadow: 5px 5px 10px #888888;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    border-radius: 20px;
+}
+
+.upper{
+    display: flex;
+    padding-bottom: 15px;
+    
+    align-items: center;
+    color: #36454F;
+}
+
+.image{
+    width:100%;
+    position: relative;
+}
+
+.footer{
+    display: flex;
+    padding-top: 20px;
+    justify-content: space-between;
+    padding: '0 20px';
+}
+
+.likes{
+    display: flex;
+    align-items: center;
+    color: #36454F;
+}
+
+.heart{
+    color: red;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.comments{
+    color: #36454F;
+}
+.comments:hover{
+    color: #36454F;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+    .SinglePost{
+        width:calc(100%-1000px) !important;
+        position: relative;
+        top: 80px;
+        /* left: 230px; */
+        /* right: 230px; */
+        /* margin:0px  5px; */
+   
+        padding: 20px;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-bottom: 15px;
+        box-shadow: 5px 5px 10px #888888;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        border-radius: 10px;
+
+    }
+}
+
+.left{
+    margin-right: auto;
+    position: absolute;
+    top:50%;
+    left:10px;
+    color: grey;
+    font-size: 20px;
+    cursor: pointer;
+}
+.right{
+    margin-left: auto;
+    position: absolute;
+    top: 50%;
+    right:10px;
+    color: grey;
+    font-size: 20px;
+    cursor:pointer;
+}
+
+@media (max-width: 700px) {
+    .SinglePost{
+    margin-left: 20px;
+    margin-right: 20px;
+    }
+}
+
+@media (max-width: 930px) and (min-width: 900px) {
+    .SinglePost{
+    margin-left: 20px;
+    margin-right: 20px;
+    }
+}

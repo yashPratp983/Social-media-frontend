@@ -1,0 +1,19 @@
+.xmark{
+    font-size: 20px;
+}
+
+.button{
+    text-align: center;
+    width: 80px;
+    height:30px;
+  
+    border-radius: 5px;
+    color:black;
+    background-color: 	#E0E0E0;
+    border:none;
+    cursor: pointer;
+}
+
+.button:hover{
+    background-color: 	#A8A8A8;
+}

@@ -1,0 +1,62 @@
+.description{
+    background-color: #edf2f7;
+    height: 100vh;
+    color: #0CAFFF;
+    font-family: 'Roboto', sans-serif;
+    .heading{
+        font-weight: 600;
+        text-align: center;
+        margin:0%;
+        padding: 3% 0%;
+    
+    }
+    .descriptionForm{
+        width : 30%;
+        background-color: white;
+        height: 25rem;
+        justify-content: center;
+        min-width: 300px;
+          position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+        border-radius: 10px;
+        .detail{
+            text-align: center;
+
+        }
+
+        .para{
+            color:black;
+            padding: 3%;
+            font-size: 15px;
+            line-height: 20px;
+        }
+        .form{
+            display: flex;
+            flex-direction: column;
+            padding: 3%;
+            .button{
+                margin:2%;
+                height:45px;
+                background-color: #0CAFFF;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 19px;
+            }
+            .button:hover{
+                background-color: #00FFFF;
+            }
+                .input{
+                    outline: none;
+                    border: solid 3px #00FFFF;
+                }
+        }
+    }
+}
+
+

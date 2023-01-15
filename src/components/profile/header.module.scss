@@ -1,0 +1,133 @@
+.header{
+    display:flex;
+    text-align: center;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 70px; 
+    background-color: #318CE7;
+    position: fixed;
+    z-index: 1600;
+    opacity: 1;
+    width: 100%;
+    overflow-y: hidden;
+    .bars{
+        display: none;
+    }
+.heading{
+    color: #f6f6f6;
+    font-size: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.input{
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    width: 40%;
+    align-items: center;
+    display: flex;
+    background-color: #f6f6f6;
+    border-radius: 25px;
+    padding-left: 10px;
+    .inputField{
+        outline: none;
+        border: none;
+        font-size: 15px;
+        font-family: 'Roboto', sans-serif;
+        width: 95%;
+        height: 15px;
+        border-radius: 25px;
+        padding: 10px;
+        background: #f6f6f6;
+    }
+    .search{
+        color: grey;
+        background: #f6f6f6;
+    }
+}
+.icons{
+    width: 5%;
+    display: flex;
+    color: #f6f6f6;
+    padding: 10px;
+    align-items: left;
+    font-size: 20px;
+    .message{
+        padding-right: 15px;
+    }
+    .user{
+        padding-right: 15px;
+    }
+}
+.profile{
+   width: 10%;
+    .image{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+}
+}
+
+@media screen and (max-width: 900px){
+    .header{
+        display:flex;
+        text-align: center;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap:wrap;
+        padding: 0 10px;
+        height: 70px; 
+        background-color: #318CE7;
+     
+        opacity: 1;
+        position: absolute;
+        width: 100%;
+       opacity: 1;
+        .bars{
+            display: block;
+            color: #f6f6f6;
+            padding-right: 10px;
+            align-items: left;
+            font-size: 20px;
+            width:50px
+        }
+    .heading{
+        color: #f6f6f6;
+        font-size: 10px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+    }
+    .input{
+        outline: none;
+        border: none;
+        border-radius: 8px;
+        width: 40%;
+        align-items: center;
+        display: flex;
+        background-color: #f6f6f6;
+        border-radius: 25px;
+        padding-left: 10px;
+        
+        .inputField{
+            outline: none;
+            border: none;
+            font-size: 15px;
+            font-family: 'Roboto', sans-serif;
+            width: 95%;
+            height: 15px;
+            border-radius: 25px;
+            padding: 10px;
+        }
+        .search{
+            color: grey;
+        }
+    }
+        .icons{
+            display: none;
+        }
+        .profile{
+       display: none;
+        }
+    }
+}

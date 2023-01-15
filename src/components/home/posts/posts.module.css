@@ -1,0 +1,9 @@
+.posts{
+    margin: '0 240px';
+}
+
+@media (max-width: 900px) {
+    .posts{
+        padding: '0 60px';
+    }
+}

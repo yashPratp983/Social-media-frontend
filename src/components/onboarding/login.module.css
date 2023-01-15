@@ -1,0 +1,108 @@
+.form{
+    /* margin-left: auto;
+    margin-right: auto; */
+ 
+    display: flex;
+    flex-direction: column;
+    
+    width : 27%;
+    background-color: white;
+    max-height: 40rem;
+    justify-content: center;
+    min-width: 300px;
+   
+    border-radius: 8px;
+    margin:0% auto;
+    margin-top: 4%;
+    padding-top: 2%;
+}
+
+.input{
+    margin:0% 2%;
+    margin-bottom: 3.5%;
+    padding: 0% 2%;
+    height:38px;
+    border-radius: 4px;
+    border: solid 1px black;
+}
+
+.input:focus{
+    outline: none;
+    border: solid 3px #00FFFF;
+}
+
+.button{
+    margin:2%;
+    height:45px;
+    background-color: #0CAFFF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 19px;
+}
+
+.login{
+    background-color:#F0F0F0;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    color: #0CAFFF;
+}
+
+.heading{
+    padding: 2% 0%;
+    margin: 0%;
+    text-align: center;
+    font-weight: bold;
+    font-size: 50px;
+}
+
+.button:hover{
+    background-color:#00FFFF;
+}
+
+.question{
+    text-align: center;
+    margin-top: 5%;
+    font-size: 20px;
+    color: black;
+}
+
+.signIn{
+    color: #0CAFFF;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.signIn:hover{
+    text-decoration: underline;
+}
+
+.register{
+    margin: 2% auto;
+    height: 45px;
+    width:100px;
+}
+
+.registerButton{
+    
+    background-color:#3FFF00;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 19px;
+    height: 100%;
+    width: 100%;
+}
+
+.registerButton:hover{
+    background-color:#00FF40;
+}
+
+.error{
+    color: red;
+    font-size: 12px;
+    margin-top: 0%;
+    margin-left: 2%;
+    }

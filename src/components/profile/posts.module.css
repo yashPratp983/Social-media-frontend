@@ -1,0 +1,10 @@
+.posts{
+    padding-left: 230px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+    .posts{
+        padding: 0px;
+    }
+}

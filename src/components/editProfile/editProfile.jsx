@@ -1,0 +1,19 @@
+import ChangeDetails from "./changeDetails";
+import Header from "../profile/header"
+import ProfileBar from "../profile/profileBar";
+import ChangePassword from "./editPassword";
+import { useState } from "react";
+const EditProfile = () => {
+    const [change, setChange] = useState(1);
+
+    return (
+        <div>
+            <Header />
+            <ProfileBar />
+            {(change == 1) && <ChangeDetails setChange={setChange} />}
+            {(change == 2) && <ChangePassword setChange={setChange} />}
+        </div>
+    )
+}
+
+export default EditProfile;
