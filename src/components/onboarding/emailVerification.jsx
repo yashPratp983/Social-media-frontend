@@ -25,8 +25,8 @@ const EmailVerification = () => {
             axios.defaults.headers.common['authorisation'] = `Bearer ${tok}`;
             user1 = await axios.get('http://localhost:4000/api/v1/user')
             console.log(user1)
-            if (user1.data.data.name) {
-                setUser(user1.data.data.name);
+            if (user1.data.data.user) {
+                setUser(user1.data.data);
                 navigate("/uploadphoto");
             }
 
