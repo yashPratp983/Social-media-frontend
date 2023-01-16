@@ -21,6 +21,7 @@ import { useNavigate } from 'react-router'
 import Loading from './components/onboarding/loading'
 import { useState } from 'react'
 import { LoadingProvider, useLoading } from './contexts/loading'
+import EditEmailVerification from './components/editProfile/emailVeification'
 
 function App() {
   const { user, setUser } = useAuth();
@@ -38,7 +39,7 @@ function App() {
 
           console.log(user1)
           if (user1.data.data.user) {
-            setUser(user1.data.data.user);
+            setUser(user1.data.data);
 
             navigate(location.pathname);
           }
@@ -74,6 +75,7 @@ function App() {
             <Route path="/editprofile" element={<Loading loading={loading}><AuthrequireLogin><EditProfile /></AuthrequireLogin></Loading>} />
             <Route path="/fileupload" element={<Loading loading={loading}><AuthrequireLogin><FileUpload /></AuthrequireLogin></Loading>} />
             <Route path="/emailverification/:token" element={<EmailVerification />} />
+            <Route path="/editemailverification/:token" element={<EditEmailVerification />} />
           </Routes>
 
 

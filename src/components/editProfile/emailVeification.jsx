@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom"
 import { useAuth } from "../../auth/auth";
 import { useNavigate } from "react-router-dom";
 import "./emailverification.css"
-const EmailVerification = () => {
+const EditEmailVerification = () => {
     const { user, setUser } = useAuth();
     const { token } = useParams();
     const navigate = useNavigate();
@@ -32,7 +32,7 @@ const EmailVerification = () => {
                 console.log(user1)
                 if (user1.data.data.user) {
                     setUser(user1.data.data);
-                    navigate("/uploadphoto");
+                    navigate("/");
                 }
             } catch (err) {
                 console.log(err)
@@ -54,4 +54,4 @@ const EmailVerification = () => {
     )
 }
 
-export default EmailVerification
+export default EditEmailVerification
