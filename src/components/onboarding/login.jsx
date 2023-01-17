@@ -83,6 +83,7 @@ const Login = () => {
                     <p className={classes.error}>{errors.email?.message}</p>
                     <input placeholder="Password" type="password" className={classes.input} {...register('password')}></input>
                     <p className={classes.error}>{errors.password?.message}</p>
+                    <p className={classes.forgotpassword} onClick={() => { navigate('/forgotpassword') }}>Forgot Password?</p>
                     <button type="submit" className={classes.button}>Sign in</button>
                     <p className={classes.question}>Don't have an account?</p>
                     <NavLink to="/register" className={classes.register}><button className={classes.registerButton}>Sign up</button></NavLink>

@@ -32,7 +32,7 @@ const EditEmailVerification = () => {
                 console.log(user1)
                 if (user1.data.data.user) {
                     setUser(user1.data.data);
-                    navigate("/");
+                    navigate("/confirmverification2");
                 }
             } catch (err) {
                 console.log(err)

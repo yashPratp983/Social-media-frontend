@@ -22,6 +22,10 @@ import Loading from './components/onboarding/loading'
 import { useState } from 'react'
 import { LoadingProvider, useLoading } from './contexts/loading'
 import EditEmailVerification from './components/editProfile/emailVeification'
+import ForgotPassword from './components/onboarding/forgotpassword'
+import ResetPassword from './components/onboarding/resetPassword'
+import Confirmverification from './components/onboarding/confirmverification'
+import Confirmverification2 from './components/editProfile/confirmverification'
 
 function App() {
   const { user, setUser } = useAuth();
@@ -76,6 +80,10 @@ function App() {
             <Route path="/fileupload" element={<Loading loading={loading}><AuthrequireLogin><FileUpload /></AuthrequireLogin></Loading>} />
             <Route path="/emailverification/:token" element={<EmailVerification />} />
             <Route path="/editemailverification/:token" element={<EditEmailVerification />} />
+            <Route path="/forgotpassword" element={<ForgotPassword />} />
+            <Route path="/resetpassword/:token" element={<ResetPassword />}></Route>
+            <Route path='/confirmverification' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification /></AuthrequireLogin></Loading>}></Route>
+            <Route path='/confirmverification2' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification2 /></AuthrequireLogin></Loading>}></Route>
           </Routes>
 
 
@@ -83,8 +91,8 @@ function App() {
 
         </div>
 
-      </OpenDialogProvider>
-    </OpenDrawerProvider>
+      </OpenDialogProvider >
+    </OpenDrawerProvider >
   )
 }
 

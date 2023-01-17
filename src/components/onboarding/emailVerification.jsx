@@ -32,7 +32,7 @@ const EmailVerification = () => {
                 console.log(user1)
                 if (user1.data.data.user) {
                     setUser(user1.data.data);
-                    navigate("/uploadphoto");
+                    navigate("/confirmverification");
                 }
             } catch (err) {
                 console.log(err)
