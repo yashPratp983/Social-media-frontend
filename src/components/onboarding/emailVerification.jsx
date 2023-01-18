@@ -15,6 +15,7 @@ const EmailVerification = () => {
         const setToken = async () => {
             try {
                 const data = await axios.get(`http://localhost:4000/api/v1/user/verify/${token}`);
+                console.log(data)
                 if (data.data.token) {
 
                     localStorage.setItem("token", data.data.token);
@@ -28,7 +29,7 @@ const EmailVerification = () => {
         const getUser = async (tok) => {
             try {
                 axios.defaults.headers.common['authorisation'] = `Bearer ${tok}`;
-                user1 = await axios.get('http://localhost:4000/api/v1/user')
+                user1 = await axios.get('http://localhost:4000/api/v1/user/')
                 console.log(user1)
                 if (user1.data.data.user) {
                     setUser(user1.data.data);

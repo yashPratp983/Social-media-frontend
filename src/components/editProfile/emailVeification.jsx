@@ -18,7 +18,7 @@ const EditEmailVerification = () => {
                 if (data.data.token) {
 
                     localStorage.setItem("token", data.data.token);
-                    getUser(data.data.token);
+                    getUser(localStorage.getItem("token"));
                 }
                 console.log(token, data)
             } catch (err) {
