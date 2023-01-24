@@ -4,6 +4,11 @@ import { faChampagneGlasses, faImages, faLocationDot } from "@fortawesome/free-s
 import { useNavigate } from "react-router";
 const AddPost = () => {
     const navigate = useNavigate();
+
+    const clickHandler = () => {
+        navigate('/fileupload')
+    }
+
     return (
         <div className={classes.addPost}>
             <div className={classes.profile}>
@@ -12,7 +17,7 @@ const AddPost = () => {
 
             </div>
             <div className={classes.icons}>
-                <FontAwesomeIcon icon={faImages} className={classes.images} />
+                <FontAwesomeIcon icon={faImages} className={classes.images} onClick={clickHandler} />
                 <FontAwesomeIcon icon={faLocationDot} className={classes.location} />
             </div>
         </div>
