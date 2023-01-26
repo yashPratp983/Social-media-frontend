@@ -11,7 +11,7 @@
     position: relative;
     margin: 80px auto 5px;
     /* z-index: 1500; */
-    max-width: 600px;
+    max-width: 450px;
     padding: 20px;
     padding-left: 30px;
     padding-right: 30px;
@@ -19,6 +19,7 @@
     box-shadow: 5px 5px 10px #888888;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     border-radius: 20px;
+    overflow-y: hidden;
 }
 
 .upper{
@@ -62,6 +63,34 @@
     cursor: pointer;
 }
 
+@keyframes spinner {
+    0% {
+      transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    }
+    100% {
+      transform: translate3d(-50%, -50%, 0) rotate(360deg);
+    }
+  }
+      
+      .spin::before {
+        animation: 1.5s linear infinite spinner;
+        animation-play-state: inherit;
+        border: solid 5px #cfd0d1;
+        border-bottom-color: #1c87c9;
+        border-radius: 50%;
+        content: "";
+        height: 40px;
+        width: 40px;
+        left: 0; 
+        right: 0; 
+        margin-left: auto; 
+        margin-right: auto; 
+        top: 50%;
+        /* width: 100px; Need a specific value to work */
+        transform: translate3d(-50%, -50%, 0);
+        will-change: transform;
+      }
+
 @media (max-width: 900px) {
     .SinglePost{
         width:calc(100%-1000px) !important;
@@ -78,6 +107,7 @@
         box-shadow: 5px 5px 10px #888888;
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
         border-radius: 10px;
+        overflow-y: none;
 
     }
 }
