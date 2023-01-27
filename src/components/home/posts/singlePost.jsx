@@ -5,19 +5,61 @@ import { useState } from "react";
 import Comments from "./comments";
 import { useNavigate } from "react-router";
 import Posts from "./posts";
+import { useAuth } from "../../../auth/auth";
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
+import axios from "axios";
+
 const SinglePost = ({ post }) => {
     const navigate = useNavigate();
+    const auth = useAuth();
     const [showComment, setShowComment] = useState(false);
     const [comment, setComment] = useState(Object(post).comments[0]);
     const [src, setSrc] = useState(0);
+    const [isLiked, setIsLiked] = useState(post.likedUser[0].includes(auth.user.user._id));
+    const [likes, setLikes] = useState(Object(post).likes[0]);
     // console.log(Object(post.photos[0]).url)
-    console.log(post, "posts")
+    console.log(Object(post).likes[0], "posts")
     const [address, setAddress] = useState(Object(post.photos[0]).url);
     let add = post.photos;
     let addVideo = post.videos;
     let addBoth = add.concat(addVideo);
+    console.log(post.likedUser[0], "liked")
+
     const commentHandler = () => {
         setShowComment(!showComment);
+    }
+
+    const likeHandler = async () => {
+        try {
+            if (isLiked) {
+                const token = localStorage.getItem('token');
+                const res = await axios.put(`http://localhost:4000/api/v1/posts/unlike/${post.id}`, {}, {
+                    headers: {
+                        authorization: `Bearer ${token}`
+                    }
+                }
+                );
+                console.log(res)
+                setLikes(res.data.data.like);
+                setIsLiked(!isLiked);
+            }
+            else {
+                const token = localStorage.getItem('token');
+                const res = await axios.put(`http://localhost:4000/api/v1/posts/like/${post.id}`, {}, {
+                    headers: {
+                        authorization: `Bearer ${token}`
+                    }
+                }
+                );
+                console.log(res)
+                setIsLiked(!isLiked);
+                setLikes(res.data.data.like);
+            }
+        }
+        catch (err) {
+            console.log(err)
+        }
     }
 
     return (
@@ -43,8 +85,9 @@ const SinglePost = ({ post }) => {
             </div>}
             <div className={classes.footer}>
                 <div className={classes.likes}>
-                    <FontAwesomeIcon icon={faHeart} className={classes.heart} />
-                    <p style={{ paddingLeft: '10px' }}>{post.likes.length - 1} likes</p>
+                    {!isLiked && <FavoriteBorderOutlinedIcon onClick={likeHandler} style={{ color: 'red', cursor: 'pointer' }} />}
+                    {isLiked && <FavoriteOutlinedIcon onClick={likeHandler} style={{ color: 'red', cursor: 'pointer' }} />}
+                    <p style={{ paddingLeft: '10px' }}>{likes} likes</p>
                 </div>
                 <div className={classes.comments} onClick={commentHandler}>
                     <p>{comment.length} comments</p>
