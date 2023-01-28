@@ -2,7 +2,9 @@ import { faRss, faMessage, faVideo, faUserGroup, faBookmark } from '@fortawesome
 import { Typography, Box, styled } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classes from './profileBar.module.css';
+import { useNavigate } from 'react-router';
 const ProfileBar = () => {
+    const Navigate = useNavigate();
     const Section = styled(Typography)`
     font-size:20px;
     padding-left:25px;
@@ -30,7 +32,7 @@ const ProfileBar = () => {
     return (
         <div className={classes.ProfileBar}>
             <div className={classes.links}>
-                <div className={classes.icons}>
+                <div className={classes.icons} onClick={() => { Navigate('/') }}>
                     <FontAwesomeIcon icon={faRss} style={{ paddingRight: '20px', width: '20px' }} />
                     <Typography>Feed</Typography>
                 </div>

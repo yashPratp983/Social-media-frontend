@@ -26,10 +26,15 @@ import ForgotPassword from './components/onboarding/forgotpassword'
 import ResetPassword from './components/onboarding/resetPassword'
 import Confirmverification from './components/onboarding/confirmverification'
 import Confirmverification2 from './components/editProfile/confirmverification'
+import { createContext } from 'react'
+
+export const allUsers = createContext()
+export const allNotifications = createContext()
 
 function App() {
   const { user, setUser } = useAuth();
-  // const { loading, setLoading } = useLoading();
+  const [users, setUsers] = useState([])
+  const [notifications, setNotifications] = useState({})
   const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true)
@@ -61,36 +66,74 @@ function App() {
 
   }, []);
 
+  useEffect(() => {
+    const getNotifications = async () => {
+      try {
+        const token = (localStorage.getItem('token'));
+        if (token) {
+          axios.defaults.headers.common['authorisation'] = `Bearer ${token}`;
+          const notification = await axios.get('http://localhost:4000/api/v1/notifications')
+          console.log(notification.data.data)
+          setNotifications(notification.data.data)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getNotifications()
+  }, [user])
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const token = (localStorage.getItem('token'));
+        if (token) {
+          axios.defaults.headers.common['authorisation'] = `Bearer ${token}`;
+          const users = await axios.get('http://localhost:4000/api/v1/user/getAllUsers')
+          console.log(users.data.data, "users")
+          setUsers(users.data.data)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    getUsers()
+  }, [user])
+
+
 
   return (
 
     <OpenDrawerProvider>
       <OpenDialogProvider>
+        <allUsers.Provider value={{ users, setUsers }}>
+          <allNotifications.Provider value={{ notifications, setNotifications }}>
+            <div className="App">
 
-        <div className="App">
-
-          <Routes>
-            <Route path="/register" element={<Loading><Register /></Loading>} />
-            <Route path="/login" element={<Loading><Login /></Loading>} />
-            <Route path="/uploadphoto" element={<Loading loading={loading}><AuthrequireRegister><UploadPhoto /></AuthrequireRegister></Loading>} />
-            <Route path="/description" element={<Loading loading={loading}><AuthrequireRegister><Description /></AuthrequireRegister></Loading>} />
-            <Route path="/" element={<Loading loading={loading}><AuthrequireLogin><Home /></AuthrequireLogin></Loading>} />
-            <Route path="/profile" element={<Loading loading={loading}><AuthrequireLogin><Profile /></AuthrequireLogin></Loading>} />
-            <Route path="/editprofile" element={<Loading loading={loading}><AuthrequireLogin><EditProfile /></AuthrequireLogin></Loading>} />
-            <Route path="/fileupload" element={<Loading loading={loading}><AuthrequireLogin><FileUpload /></AuthrequireLogin></Loading>} />
-            <Route path="/emailverification/:token" element={<EmailVerification />} />
-            <Route path="/editemailverification/:token" element={<EditEmailVerification />} />
-            <Route path="/forgotpassword" element={<ForgotPassword />} />
-            <Route path="/resetpassword/:token" element={<ResetPassword />}></Route>
-            <Route path='/confirmverification' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification /></AuthrequireLogin></Loading>}></Route>
-            <Route path='/confirmverification2' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification2 /></AuthrequireLogin></Loading>}></Route>
-          </Routes>
+              <Routes>
+                <Route path="/register" element={<Loading><Register /></Loading>} />
+                <Route path="/login" element={<Loading><Login /></Loading>} />
+                <Route path="/uploadphoto" element={<Loading loading={loading}><AuthrequireRegister><UploadPhoto /></AuthrequireRegister></Loading>} />
+                <Route path="/description" element={<Loading loading={loading}><AuthrequireRegister><Description /></AuthrequireRegister></Loading>} />
+                <Route path="/" element={<Loading loading={loading}><AuthrequireLogin><Home /></AuthrequireLogin></Loading>} />
+                <Route path="/profile/:id" element={<Loading loading={loading}><AuthrequireLogin><Profile /></AuthrequireLogin></Loading>} />
+                <Route path="/editprofile" element={<Loading loading={loading}><AuthrequireLogin><EditProfile /></AuthrequireLogin></Loading>} />
+                <Route path="/fileupload" element={<Loading loading={loading}><AuthrequireLogin><FileUpload /></AuthrequireLogin></Loading>} />
+                <Route path="/emailverification/:token" element={<EmailVerification />} />
+                <Route path="/editemailverification/:token" element={<EditEmailVerification />} />
+                <Route path="/forgotpassword" element={<ForgotPassword />} />
+                <Route path="/resetpassword/:token" element={<ResetPassword />}></Route>
+                <Route path='/confirmverification' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification /></AuthrequireLogin></Loading>}></Route>
+                <Route path='/confirmverification2' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification2 /></AuthrequireLogin></Loading>}></Route>
+              </Routes>
 
 
 
 
-        </div>
-
+            </div>
+          </allNotifications.Provider>
+        </allUsers.Provider>
       </OpenDialogProvider>
     </OpenDrawerProvider>
   )

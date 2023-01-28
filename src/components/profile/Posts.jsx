@@ -1,14 +1,25 @@
 import SinglePost from "./singlePost";
 import classes from './posts.module.css'
-const Posts = () => {
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const Posts = ({ posts }) => {
+    const [pos, setPosts] = useState(posts)
+
     return (
-        <div className={classes.posts}>
-            <SinglePost />
-            <SinglePost />
-            <SinglePost />
-            <SinglePost />
-            <SinglePost />
-        </div>
+        <>
+            {
+                pos.length > 0 &&
+                <div className={classes.posts}>
+
+                    {pos.map((post) => {
+                        return <SinglePost key={post.id} post={post} postState={{ pos, setPosts }} />
+                    })}
+                </div>
+
+            }
+            {posts.length == 0 && <div className={classes.noPosts}>No Posts to view</div>}
+        </>
     )
 }
 

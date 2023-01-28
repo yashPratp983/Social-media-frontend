@@ -18,7 +18,7 @@ const Posts = () => {
                     }
 
                 })
-                console.log((await posts1).data.data)
+                // console.log((await posts1).data.data)
                 setPosts(posts1.data.data);
                 setLoading(false)
             } catch (err) {

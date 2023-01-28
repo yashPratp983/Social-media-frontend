@@ -3,23 +3,64 @@ import classes from './profileheader.module.css'
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { useOpenDialog } from '../../contexts/openFollowerDialog';
-const Background = () => {
+import { useAuth } from '../../auth/auth';
+import { useContext } from 'react';
+import { allNotifications } from '../../App';
+import { allUsers } from '../../App';
+import axios from 'axios';
+import { useState } from 'react';
+
+const Background = ({ user, posts }) => {
+    const auth = useAuth();
+    const notification = useContext(allNotifications)
     const navigate = useNavigate();
+    console.log(notification.notifications, "userjnn")
     const openDialog = useOpenDialog();
+    const [follow, setFollow] = useState(false)
+    const [unfollow, setUnfollow] = useState(false)
+    const followHandler = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            const notification = await axios.post(`http://localhost:4000/api/v1/notifications`, { user: user._id },
+                { headers: { 'authorisation': `Bearer ${token}` } }
+            )
+            setFollow(true)
+            console.log(notification)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const unfollowHandler = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            const unfollow = await axios.put(`http://localhost:4000/api/v1/user/unfollow/${user._id}`,
+                { headers: { 'authorisation': `Bearer ${token}` } }
+            )
+            console.log(unfollow)
+            setUnfollow(true)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     return (
         <div className={classes.parent}>
             <div className={classes.header}>
-                <img src='https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg' className={classes.image}></img>
+                <img src={user.profilePic.url} className={classes.image}></img>
                 <div>
-                    <h2 className={classes.name}>Heisenberg</h2>
+                    <h2 className={classes.name}>{user.name}</h2>
                     <div className={classes.description}>
-                        <p className={classes.para}>FGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGTYFTYFTYDR56EDTYFD65EDF56ER56ED5454ED</p>
+                        <p className={classes.para}>{user.bio}</p>
                         <div style={{ display: 'flex' }}>
-                            <p style={{ paddingRight: '15px' }} className={classes.posts}>0 Posts</p>
-                            <p style={{ paddingRight: '15px' }} className={classes.social} onClick={() => { openDialog.setOpendialog(true) }}>5 Followers</p>
-                            <p className={classes.social} onClick={() => { openDialog.setOpendialog(true) }}>8 Following</p>
+                            <p style={{ paddingRight: '15px' }} className={classes.posts}>{posts.length} Posts</p>
+                            <p style={{ paddingRight: '15px' }} className={classes.social} onClick={() => { openDialog.setOpendialog(true) }}>{user.followers.length} Followers</p>
+                            <p className={classes.social} onClick={() => { openDialog.setOpendialog(true) }}>{user.following.length} Following</p>
                         </div>
-                        <button className={classes.button} onClick={() => { navigate('/editprofile') }}>Edit Profile</button>
+                        {(user._id == auth.user.user._id) && <button className={classes.button} onClick={() => { navigate('/editprofile') }}>Edit Profile</button>}
+                        {((user._id != auth.user.user._id && !auth.user.user.following.includes(user._id) && !follow && !notification.notifications.status.includes(user._id)) || unfollow) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={(() => { followHandler() })}>Follow</div>}
+                        {(user._id != auth.user.user._id && auth.user.user.following.includes(user._id) && !unfollow) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { unfollowHandler() }}>Unfollow</div>}
+                        {((user._id != auth.user.user._id && notification.notifications.status.includes(user._id)) || follow) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Requested</div>}
                     </div>
                 </div>
             </div>

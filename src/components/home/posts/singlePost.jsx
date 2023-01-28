@@ -19,12 +19,12 @@ const SinglePost = ({ post }) => {
     const [isLiked, setIsLiked] = useState(post.likedUser[0].includes(auth.user.user._id));
     const [likes, setLikes] = useState(Object(post).likes[0]);
     // console.log(Object(post.photos[0]).url)
-    console.log(Object(post).likes[0], "posts")
+    // console.log(Object(post).likes[0], "posts")
     const [address, setAddress] = useState(Object(post.photos[0]).url);
     let add = post.photos;
     let addVideo = post.videos;
     let addBoth = add.concat(addVideo);
-    console.log(post.likedUser[0], "liked")
+    console.log(post.user._id, "liked")
 
     const commentHandler = () => {
         setShowComment(!showComment);
@@ -65,7 +65,7 @@ const SinglePost = ({ post }) => {
     return (
         <div className={classes.SinglePost}>
             <div className={classes.upper}>
-                <img src={post.user.profilePic.url} className={classes.profile} onClick={() => { navigate('/profile') }}></img>
+                <img src={post.user.profilePic.url} className={classes.profile} onClick={() => { navigate(`/profile/${post.user._id}`) }}></img>
                 <p style={{ paddingRight: '20px' }}>{post.user.name}</p>
                 <p>{post.created_at}</p>
             </div>
