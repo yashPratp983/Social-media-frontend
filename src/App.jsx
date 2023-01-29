@@ -34,7 +34,7 @@ export const allNotifications = createContext()
 function App() {
   const { user, setUser } = useAuth();
   const [users, setUsers] = useState([])
-  const [notifications, setNotifications] = useState({})
+  const [notifications, setNotifications] = useState({ request: [], status: [], _id: '', user: '' })
   const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true)

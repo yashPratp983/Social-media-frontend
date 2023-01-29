@@ -53,7 +53,7 @@ const Background = ({ user, posts }) => {
                     <div className={classes.description}>
                         <p className={classes.para}>{user.bio}</p>
                         <div style={{ display: 'flex' }}>
-                            <p style={{ paddingRight: '15px' }} className={classes.posts}>{posts.length} Posts</p>
+                            {posts && <p style={{ paddingRight: '15px' }} className={classes.posts}>{posts.length} Posts</p>}
                             <p style={{ paddingRight: '15px' }} className={classes.social} onClick={() => { openDialog.setOpendialog(true) }}>{user.followers.length} Followers</p>
                             <p className={classes.social} onClick={() => { openDialog.setOpendialog(true) }}>{user.following.length} Following</p>
                         </div>

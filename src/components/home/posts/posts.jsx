@@ -20,6 +20,7 @@ const Posts = () => {
                 })
                 // console.log((await posts1).data.data)
                 setPosts(posts1.data.data);
+                console.log(posts1)
                 setLoading(false)
             } catch (err) {
                 console.log(err)
