@@ -2,14 +2,11 @@ import { Dialog, Box, Typography, List, ListItem, styled } from '@mui/material';
 import { useOpenDialog } from '../../contexts/openFollowerDialog';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import classes from './followersDialog.module.css'
-import { useAuth } from '../../auth/auth';
-import { allUsers } from '../../App';
-import { useContext } from 'react';
+import classes from './followingDialog.module.css'
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-
+import { useAuth } from '../../auth/auth';
 import { useParams } from 'react-router';
+import axios from 'axios';
 
 const dialogStyle = {
     width: '350px',
@@ -45,46 +42,43 @@ display: flex;
 align-items: center;
 `
 
-const Followers = ({ user, followers }) => {
-    const [allFollowers, setAllFollowers] = useState(followers);
-
-    // const allUser = useContext(allUsers);
-    // console.log(allUser, "alluser", user);
-    const { opendialog, setOpendialog } = useOpenDialog();
+const Following = ({ user, following }) => {
+    const [allFollowing, setAllFollowing] = useState(following);
+    const { openfollowingdialog, setOpenfollowingdialog } = useOpenDialog();
     const auth = useAuth();
     const { id } = useParams();
-
     useEffect(() => {
-        setAllFollowers(followers);
-    }, [followers])
+        setAllFollowing(following);
+    }, [following])
 
-    const removeFollower = async (id) => {
+    const removeFollowing = async (id) => {
         const token = localStorage.getItem("token");
         try {
-            const res = await axios.put(`http://localhost:4000/api/v1/user/block/${id}`, {},
+            const res = await axios.put(`http://localhost:4000/api/v1/user/unfollow/${id}`, {},
                 { headers: { authorisation: `Bearer ${token}` } });
-            setAllFollowers(allFollowers.filter((following) => following._id !== id));
+            console.log(res);
+            setAllFollowing(allFollowing.filter((following) => following._id != id));
         } catch (err) {
             console.log(err);
         }
     }
 
     return (
-        <Dialog open={opendialog} PaperProps={{ sx: dialogStyle }} onClose={() => { setOpendialog(false) }}>
+        <Dialog open={openfollowingdialog} PaperProps={{ sx: dialogStyle }} onClose={() => { setOpenfollowingdialog(false) }}>
             <Header>
-                <Typography>Followers</Typography>
-                <FontAwesomeIcon icon={faXmark} onClick={() => { setOpendialog(false) }} className={classes.xmark}></FontAwesomeIcon>
+                <Typography>Following</Typography>
+                <FontAwesomeIcon icon={faXmark} onClick={() => { setOpenfollowingdialog(false) }} className={classes.xmark}></FontAwesomeIcon>
             </Header>
             {
-                allFollowers.map((follow) => {
+                allFollowing.map((follower) => {
                     return (
-                        <Follower key={follow._id}>
+                        <Follower key={follower._id}>
                             <FollowerList>
-                                <Image src={follow.profilePic.url}></Image>
-                                <Typography>{follow.name}</Typography>
+                                <Image src={follower.profilePic.url}></Image>
+                                <Typography>{follower.name}</Typography>
                             </FollowerList>
                             {(auth.user.user._id == id) && (<Box>
-                                <button className={classes.button} onClick={() => { removeFollower(follow._id) }}>Block</button>
+                                <button className={classes.button} onClick={() => { removeFollowing(follower._id) }}>Unfollow</button>
                             </Box>)}
                         </Follower>
                     )
@@ -94,4 +88,4 @@ const Followers = ({ user, followers }) => {
     )
 }
 
-export default Followers;
+export default Following;

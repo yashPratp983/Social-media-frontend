@@ -10,7 +10,7 @@ import { allUsers } from '../../App';
 import axios from 'axios';
 import { useState } from 'react';
 
-const Background = ({ user, posts }) => {
+const Background = ({ user, posts, followers, following }) => {
     const auth = useAuth();
     const notification = useContext(allNotifications)
     const navigate = useNavigate();
@@ -18,6 +18,7 @@ const Background = ({ user, posts }) => {
     const openDialog = useOpenDialog();
     const [follow, setFollow] = useState(false)
     const [unfollow, setUnfollow] = useState(false)
+    console.log(user, "user")
     const followHandler = async () => {
         try {
             const token = localStorage.getItem('token')
@@ -47,15 +48,15 @@ const Background = ({ user, posts }) => {
     return (
         <div className={classes.parent}>
             <div className={classes.header}>
-                <img src={user.profilePic.url} className={classes.image}></img>
+                <img src={Object(user).profilePic.url} className={classes.image}></img>
                 <div>
                     <h2 className={classes.name}>{user.name}</h2>
                     <div className={classes.description}>
                         <p className={classes.para}>{user.bio}</p>
                         <div style={{ display: 'flex' }}>
                             {posts && <p style={{ paddingRight: '15px' }} className={classes.posts}>{posts.length} Posts</p>}
-                            <p style={{ paddingRight: '15px' }} className={classes.social} onClick={() => { openDialog.setOpendialog(true) }}>{user.followers.length} Followers</p>
-                            <p className={classes.social} onClick={() => { openDialog.setOpendialog(true) }}>{user.following.length} Following</p>
+                            <p style={{ paddingRight: '15px' }} className={classes.social} onClick={() => { if (followers) { openDialog.setOpendialog(true) } }}>{user.followers} Followers</p>
+                            <p className={classes.social} onClick={() => { if (following) { openDialog.setOpenfollowingdialog(true) } }}>{user.following} Following</p>
                         </div>
                         {(user._id == auth.user.user._id) && <button className={classes.button} onClick={() => { navigate('/editprofile') }}>Edit Profile</button>}
                         {((user._id != auth.user.user._id && !auth.user.user.following.includes(user._id) && !follow && !notification.notifications.status.includes(user._id)) || unfollow) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={(() => { followHandler() })}>Follow</div>}

@@ -2,9 +2,14 @@ import SinglePost from "./singlePost";
 import classes from './posts.module.css'
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router";
 
 const Posts = ({ posts }) => {
     const [pos, setPosts] = useState(posts)
+    const id = useParams().id;
+    useEffect(() => {
+        setPosts(posts)
+    }, [posts, id])
 
     return (
         <>

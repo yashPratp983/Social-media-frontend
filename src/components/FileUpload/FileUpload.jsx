@@ -104,16 +104,16 @@ const FileUpload = () => {
         } catch (err) {
             setLoad(false);
             console.log(err);
-            toast.info(`${err.response.data.error}`, {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+            // toast.info(`${err.response.data.error}`, {
+            //     position: "bottom-right",
+            //     autoClose: 5000,
+            //     hideProgressBar: false,
+            //     closeOnClick: true,
+            //     pauseOnHover: true,
+            //     draggable: true,
+            //     progress: undefined,
+            //     theme: "dark",
+            // });
         }
     }
 

@@ -37,11 +37,13 @@ const Posts = () => {
             {!loading &&
                 <>
                     {
-                        posts.length > 0 &&
+                        (posts.length > 0 && posts) &&
                         <div className={classes.posts}>
 
                             {!loading && posts.map((post) => {
-                                return <SinglePost key={post.id} post={post} />
+                                if (post) {
+                                    return <SinglePost key={post.id} post={post} />
+                                }
                             })}
                         </div>
 

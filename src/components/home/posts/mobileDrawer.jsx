@@ -14,7 +14,8 @@ const MobileDrawer = () => {
         height: '100%',
         paddingBottom: '4px',
         marginLeft: 'auto',
-        zIndex: 1000000,
+        zIndex: '1000004546487487878974899999999999999999999999999999999999999999999999999878674689980',
+        paddingTop: '70px',
         "&::-webkit-scrollbar": {
             width: '5px'
         },

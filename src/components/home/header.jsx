@@ -15,6 +15,7 @@ import { useContext } from "react";
 import { allUsers } from "../../App";
 import { allNotifications } from "../../App";
 import axios from "axios";
+import { useAuth } from "../../auth/auth";
 
 const Header = () => {
     const { opendrawer, setOpendrawer } = useOpenDrawer();
@@ -23,6 +24,7 @@ const Header = () => {
     console.log(users.users, notifications.notifications)
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
+    const auth = useAuth();
     const handleClick = () => {
         setOpen(true)
     };
@@ -39,11 +41,11 @@ const Header = () => {
                     authorisation: `Bearer ${token}`
                 }
             })
-            console.log(accept);
+
             let r = notifications.notifications.request;
-            console.log(r, "r1")
+
             r = r.filter((item) => item._id == id)
-            console.log(r, "r2")
+
             notifications.setNotifications({
                 ...notifications.notifications, request: r
             })
@@ -62,11 +64,11 @@ const Header = () => {
                     authorisation: `Bearer ${token}`
                 }
             })
-            console.log(accept);
+
             let r = notifications.notifications.request;
-            console.log(r, "r1")
+
             r = r.filter((item) => item._id == id)
-            console.log(r, "r2")
+
             notifications.setNotifications({
                 ...notifications.notifications, request: r
             })
@@ -143,9 +145,9 @@ const Header = () => {
                 <input className={classes.inputField} placeholder="Search for friend"></input>
             </div>
             <div className={classes.icons}>
-                <FontAwesomeIcon icon={faBell} onClick={handleClick} className={classes.user} />
-                <FontAwesomeIcon icon={faUser} className={classes.message} />
-                <FontAwesomeIcon icon={faMessage} />
+                <FontAwesomeIcon icon={faBell} onClick={handleClick} className={classes.user} style={{ cursor: 'pointer' }} />
+                <FontAwesomeIcon icon={faUser} className={classes.message} style={{ cursor: 'pointer' }} />
+                <FontAwesomeIcon icon={faMessage} style={{ cursor: 'pointer' }} className={classes.bell} />
             </div>
             <Dialog onClose={handleClose} open={open} style={{ zIndex: '434343665456465' }} PaperProps={{ sx: dialogStyle }}>
                 <Header>
@@ -178,7 +180,7 @@ const Header = () => {
 
                 }
             </Dialog>
-            <div className={classes.profile} ><img className={classes.image} src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg" onClick={() => { navigate('/profile') }} ></img></div>
+            <div className={classes.profile} ><img className={classes.image} src={auth.user.user.profilePic.url} onClick={() => { navigate(`/profile/${auth.user.user._id}`) }} ></img></div>
             <div className={classes.bars} onClick={() => { setOpendrawer(!opendrawer); console.log(opendrawer) }}><FontAwesomeIcon icon={faBars} /></div>
         </div>
     )

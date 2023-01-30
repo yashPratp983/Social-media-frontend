@@ -8,9 +8,13 @@ import * as Yup from 'yup'
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { margin } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../auth/auth';
 
 const ChangeDetails = ({ setChange }) => {
-
+    const auth = useAuth();
+    const navigate = useNavigate();
     const formSchema = Yup.object().shape({
         oldpassword: Yup.string()
             .required('Password is mendatory')
@@ -69,8 +73,11 @@ const ChangeDetails = ({ setChange }) => {
             <div className={classes.editProfile}>
                 <div className={classes.change}>
                     <div className={classes.header}>
-                        <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg" className={classes.profileimage}></img>
-                        <h2>Heisenberg</h2>
+                        <img src={auth.user.user.profilePic.url} className={classes.profileimage}></img>
+                        <div>
+                            <h2 style={{ paddingBottom: '0px', marginBottom: '0px' }}>{auth.user.user.name}</h2>
+                            <p style={{ paddingTop: '6px', marginTop: '0px', fontSize: '12px', cursor: 'pointer', color: '#318CE7', fontWeight: '500' }} onClick={() => { navigate('/uploadphoto') }}>Change Profile Pic</p>
+                        </div>
                     </div>
                     <form onSubmit={handleSubmit(submitHandler)}>
                         <div className={classes.fields}>

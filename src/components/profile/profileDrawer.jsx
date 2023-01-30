@@ -6,7 +6,7 @@ import { borderBottom } from '@mui/system';
 import { useOpenDrawer } from '../../contexts/open-drawer';
 
 const MobileDrawer = () => {
-    const { opendrawerProfile, setOpendrawerProfile } = useOpenDrawer();
+    const { opendrawer, setOpendrawer } = useOpenDrawer();
     const leftBar = {
         position: 'absolute',
         width: '250px',
@@ -67,7 +67,7 @@ const MobileDrawer = () => {
     `
 
     return (
-        <Drawer anchor='right' open={opendrawerProfile} onClose={() => { setOpendrawerProfile(false) }} PaperProps={{
+        <Drawer anchor='right' open={opendrawer} onClose={() => { setOpendrawer(false) }} PaperProps={{
             sx: leftBar, elevation: 24
         }}   >
             <Component>
