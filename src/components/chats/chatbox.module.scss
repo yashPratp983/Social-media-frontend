@@ -1,0 +1,239 @@
+.chatbox{
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    right: 20px;
+    bottom: 10px;
+    height: 520px;
+    width: calc(100% - 40px);
+    background-color:#FFF5EE;
+    display: flex;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    .leftbox{
+        width:25%;
+        height: 100%;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+        overflow-y: scroll;
+        
+        .leftheader{
+            height:70px;
+            border-bottom: 0.1px solid grey;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            .inputfield{
+                height: 35px;
+                background-color: white;
+                display: flex;
+                align-items: center;
+                border-radius: 20px;
+                justify-content: center;
+                text-align: center;
+                width: 80%;
+            .icon{
+                height: 100%;
+                display: flex;
+                align-items: center;
+                padding-left: 5px;
+            }
+            .input{
+                height: 100%;
+                outline: none;
+                border: none;
+                width:90%;
+                padding: 0 20px;
+                border-radius: 20px;
+            }
+        }
+        }
+        .leftbody{
+            .leftbodylist{
+                height: 70px;
+                display: flex;
+                align-items: center;
+                padding: 5px;
+                .images{
+                    height: 40px;
+                    width: 40px;
+                    border-radius: 50%;
+                    margin: 10px;
+                }
+                .names{
+                    font-size: 18px;
+                    font-weight: 600;
+                    margin: 10px;
+                }
+            }
+            .leftbodylist:hover{
+                background-color: #318CE7;
+                .names{
+                    color: white;
+                }
+            }
+        }
+    }
+    .rightbox{
+        width:75%;
+        height: 100%;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+        overflow-y: scroll;
+        position: relative;
+        .rightheader{
+            height:70px;
+            position: fixed;
+            width: calc(75% - 35px);
+            display: flex;
+            flex-direction: column;
+            background-color: #318CE7;
+            color: white;
+            .profile{
+                height:100%;
+                display: flex;
+                align-items: center;
+                .image{
+                height: 50px;
+                width: 50px;
+                border-radius: 50%;
+                margin: 15px;
+            }
+            .status{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                .name{
+                    font-size: 18px;
+                    font-weight: 600;
+                    margin: 0px;
+                }
+                .stats{
+                    font-size: 12px;
+                    font-weight: 400;
+                    margin: 0px;
+                }
+            }
+        }
+        }
+        .rightfooter{
+            height: 70px;
+            position: fixed;
+            bottom: 25px;
+            width: calc(75% - 35px);
+            background-color: #318CE7;
+            color: white;
+            display: flex;
+            align-items: center;
+            
+            .inputfield{
+                height: 37px;
+                background-color: white;
+                margin-left: 20px;
+                display: flex;
+                align-items: center;
+                border-radius: 20px;
+                justify-content: center;
+                text-align: center;
+                width: 80%;
+                display: flex;
+                align-items: center;
+                .icon{
+                    height: 100%;
+                    display: flex;
+                    align-items: center;
+                    width: 5%;
+                    color:#318CE7;
+                    cursor: pointer;
+                }
+                .input{
+                    height: 100%;
+                    outline: none;
+                    border: none;
+                    width:95%;
+                    padding: 0 10px;
+                    border-radius: 20px;
+                }
+            }
+        }
+        .rightbody{
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 150px;
+            width: calc(75% - 35px);
+            height: calc(100% - 240px);
+            overflow-y: scroll;
+           
+            .received{
+                background-color: #318CE7;
+                color: white;
+                padding: 10px;
+                border-radius: 10px;
+                margin-right: auto;
+                margin-left: 20px;
+            }
+            .sent{
+                background-color: white;
+                color: #318CE7;
+                margin-left: auto;
+                margin-right: 20px;
+                padding: 10px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                .trash{
+                    display: none;
+                }
+            }
+            .sent:hover{
+                .trash{
+                    display: block;
+                    cursor: pointer;
+                    padding-left: 5px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+}
+
+
+    /* width */
+    .leftbox::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  /* Track */
+  .leftbox::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  .leftbox::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  .leftbox::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
+  
+    /* width */
+    .rightbody::-webkit-scrollbar {
+        width: 5px;
+      }
+      
+      /* Track */
+      .rightbody::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+      }
+       
+      /* Handle */
+      .rightbody::-webkit-scrollbar-thumb {
+        background: #888; 
+      }
+      
+      /* Handle on hover */
+      .rightbody::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+      }

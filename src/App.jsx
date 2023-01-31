@@ -26,6 +26,7 @@ import ForgotPassword from './components/onboarding/forgotpassword'
 import ResetPassword from './components/onboarding/resetPassword'
 import Confirmverification from './components/onboarding/confirmverification'
 import Confirmverification2 from './components/editProfile/confirmverification'
+import Chats from './components/chats/chats'
 import { createContext } from 'react'
 
 export const allUsers = createContext()
@@ -126,6 +127,7 @@ function App() {
                 <Route path="/resetpassword/:token" element={<ResetPassword />}></Route>
                 <Route path='/confirmverification' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification /></AuthrequireLogin></Loading>}></Route>
                 <Route path='/confirmverification2' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification2 /></AuthrequireLogin></Loading>}></Route>
+                <Route path='/chats' element={<Loading loading={loading}><AuthrequireLogin><Chats /></AuthrequireLogin></Loading>}></Route>
               </Routes>
 
 
