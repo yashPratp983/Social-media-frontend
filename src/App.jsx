@@ -28,11 +28,15 @@ import Confirmverification from './components/onboarding/confirmverification'
 import Confirmverification2 from './components/editProfile/confirmverification'
 import Chats from './components/chats/chats'
 import { createContext } from 'react'
-
+import { io } from "socket.io-client";
+import { useOnlineuser } from './contexts/onlineusers'
 export const allUsers = createContext()
 export const allNotifications = createContext()
+const socket = io("http://localhost:4000");
 
 function App() {
+
+  const { onlineusers, setOnlineusers } = useOnlineuser()
   const { user, setUser } = useAuth();
   const [users, setUsers] = useState([])
   const [notifications, setNotifications] = useState({ request: [], status: [], _id: '', user: '' })
@@ -101,6 +105,25 @@ function App() {
 
     getUsers()
   }, [user])
+
+  useEffect(() => {
+    if (user) {
+
+      // socket.emit('connection')
+
+      socket.emit("add-user", user.user._id);
+    }
+
+  }, [user])
+
+  useEffect(() => {
+    socket.on("get-users", users => {
+      console.log(users, "users")
+      setOnlineusers(users)
+    });
+    console.log("Event caught")
+  }, [socket])
+
 
 
 

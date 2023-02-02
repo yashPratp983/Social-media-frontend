@@ -7,16 +7,30 @@ import { useContext } from 'react';
 import { useAuth } from '../../auth/auth';
 import axios from 'axios';
 import { useRef, useEffect } from 'react';
+import { useOnlineuser } from '../../contexts/onlineusers';
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:4000");
 
 const Chatbox = () => {
     const [selectChat, setSelectChat] = useState(false)
     const [messages, setMessages] = useState([])
+    const { onlineusers, setOnlineusers } = useOnlineuser()
     const allusers = useContext(allUsers);
     const [messageInput, setMessageInput] = useState('')
     const el = useRef(null)
 
     const auth = useAuth();
     console.log(allusers.users)
+
+    useEffect(() => {
+        socket.on('get-message', (data) => {
+            console.log(data)
+            if (data.senderId === selectChat._id) {
+                setMessages([...messages, data.text])
+            }
+        })
+    }, [socket])
 
     const getMessages = async (id) => {
         const token = localStorage.getItem('token');
@@ -48,6 +62,7 @@ const Chatbox = () => {
 
             console.log(mess.data.data)
             setMessages([...messages, mess.data.data]);
+            socket.emit('send-message', { text: messageInput, receiverId: selectChat._id, senderId: auth.user.user._id })
             setMessageInput('')
         } catch (err) {
             console.log(err)
@@ -116,7 +131,9 @@ const Chatbox = () => {
 
                             <div className={classes.status}>
                                 <p className={classes.name}>{selectChat.name}</p>
-                                <p className={classes.stats}>offline</p>
+                                <p className={classes.stats}>{
+                                    onlineusers.find((user) => user.userId == selectChat._id) ? 'Online' : 'Offline'
+                                }</p>
                             </div>
 
                         </div>
