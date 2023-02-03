@@ -37,6 +37,7 @@ const socket = io("http://localhost:4000");
 function App() {
 
   const { onlineusers, setOnlineusers } = useOnlineuser()
+  const [messageReceive, setMessageReceive] = useState(null);
   const { user, setUser } = useAuth();
   const [users, setUsers] = useState([])
   const [notifications, setNotifications] = useState({ request: [], status: [], _id: '', user: '' })
@@ -121,6 +122,12 @@ function App() {
       console.log(users, "users")
       setOnlineusers(users)
     });
+
+    socket.on("get-message", (message) => {
+      console.log(message, "message")
+      setMessageReceive(message)
+    });
+
     console.log("Event caught")
   }, [socket])
 
@@ -150,7 +157,7 @@ function App() {
                 <Route path="/resetpassword/:token" element={<ResetPassword />}></Route>
                 <Route path='/confirmverification' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification /></AuthrequireLogin></Loading>}></Route>
                 <Route path='/confirmverification2' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification2 /></AuthrequireLogin></Loading>}></Route>
-                <Route path='/chats' element={<Loading loading={loading}><AuthrequireLogin><Chats /></AuthrequireLogin></Loading>}></Route>
+                <Route path='/chats' element={<Loading loading={loading}><AuthrequireLogin><Chats messageReceive={messageReceive} /></AuthrequireLogin></Loading>}></Route>
               </Routes>
 
 

@@ -3,7 +3,7 @@ import { createContext, useState, useContext } from 'react'
 const onlineUser = createContext();
 
 export const OnlineUserProvider = ({ children }) => {
-    const [onlineusers, setOnlineusers] = useState(null);
+    const [onlineusers, setOnlineusers] = useState([]);
 
     const value = {
         onlineusers,

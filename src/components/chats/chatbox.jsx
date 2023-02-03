@@ -8,12 +8,18 @@ import { useAuth } from '../../auth/auth';
 import axios from 'axios';
 import { useRef, useEffect } from 'react';
 import { useOnlineuser } from '../../contexts/onlineusers';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { io } from "socket.io-client";
 
 const socket = io("http://localhost:4000");
 
-const Chatbox = () => {
-    const [selectChat, setSelectChat] = useState(false)
+
+
+const Chatbox = ({ messageReceive }) => {
+    const [selectChat, setSelectChat] = useState({ _id: '', name: '', email: '', profilePic: '' })
+
+    const [isSelected, setIsSelected] = useState(false)
     const [messages, setMessages] = useState([])
     const { onlineusers, setOnlineusers } = useOnlineuser()
     const allusers = useContext(allUsers);
@@ -23,14 +29,23 @@ const Chatbox = () => {
     const auth = useAuth();
     console.log(allusers.users)
 
+    const blockHandler = async () => {
+
+    }
+
+    const unblockHandler = async () => {
+    }
+
     useEffect(() => {
-        socket.on('get-message', (data) => {
-            console.log(data)
-            if (data.senderId === selectChat._id) {
-                setMessages([...messages, data.text])
+        if (messageReceive) {
+
+            if (selectChat._id == messageReceive.senderId) {
+                console.log(messageReceive.text, "chatbox")
+                setMessages([...messages, { message: messageReceive.text, sender: messageReceive.senderId }])
+
             }
-        })
-    }, [socket])
+        }
+    }, [messageReceive])
 
     const getMessages = async (id) => {
         const token = localStorage.getItem('token');
@@ -66,6 +81,16 @@ const Chatbox = () => {
             setMessageInput('')
         } catch (err) {
             console.log(err)
+            toast.info(`${err.response.data.error}`, {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
         }
     }
 
@@ -92,87 +117,104 @@ const Chatbox = () => {
     }, [messages])
 
     return (
-        <div className={classes.chatbox}>
-            <div className={classes.leftbox}>
-                <div className={classes.leftheader}>
-                    <div className={classes.inputfield}>
-                        <div className={classes.icon}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
+        <>
+            <div className={classes.chatbox}>
+                <div className={classes.leftbox}>
+                    <div className={classes.leftheader}>
+                        <div className={classes.inputfield}>
+                            <div className={classes.icon}>
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                            </div>
+                            <input className={classes.input} placeholder="Search your conversation"></input>
                         </div>
-                        <input className={classes.input} placeholder="Search your conversation"></input>
                     </div>
-                </div>
-                <div className={classes.leftbody}>
-                    {
+                    <div className={classes.leftbody}>
+                        {
 
-                        (allusers.users.map((alluser) => {
-                            if (alluser._id != auth.user.user._id) {
-                                return (
-                                    <div className={classes.leftbodylist} onClick={() => { setSelectChat(alluser); getMessages(alluser._id) }} key={alluser._id}>
-                                        <img src={alluser.profilePic.url} className={classes.images}></img>
-                                        <p className={classes.names}>{alluser.name}</p>
-                                    </div>
-                                )
+                            (allusers.users.map((alluser) => {
+                                if (alluser._id != auth.user.user._id) {
+                                    return (
+                                        <div className={classes.leftbodylist} onClick={() => { setSelectChat(alluser); getMessages(alluser._id); setIsSelected(true) }} key={alluser._id}>
+                                            <img src={alluser.profilePic.url} className={classes.images}></img>
+                                            <p className={classes.names}>{alluser.name}</p>
+                                        </div>
+                                    )
+                                }
+                            }))
+
+
+                        }
+                    </div>
+
+                </div>
+                {
+                    isSelected &&
+                    <div className={classes.rightbox}>
+
+                        <div className={classes.rightheader}>
+                            <div className={classes.profile}>
+                                <img src={selectChat.profilePic.url} className={classes.image}></img>
+
+                                <div className={classes.status}>
+                                    <p className={classes.name}>{selectChat.name}</p>
+                                    <p className={classes.stats}>{
+                                        onlineusers.find((user) => user.userId == selectChat._id) ? 'Online' : 'Offline'
+                                    }</p>
+                                </div>
+
+                            </div>
+                            <div>
+                                {auth.user.user.blocklist.includes(selectChat._id) && <button className={classes.button} onClick={unblockHandler}>Unblock</button>}
+                                {!auth.user.user.blocklist.includes(selectChat._id) && <button className={classes.button} onClick={blockHandler}>Block</button>}
+                            </div>
+                        </div>
+
+                        <div className={classes.rightbody}>
+                            {
+                                messages.map((message, index) => {
+                                    return (
+                                        <p ref={el} className={message.sender == auth.user.user._id ? classes.sent : classes.received}>{message.message}  {message.sender == auth.user.user._id && <FontAwesomeIcon icon={faTrash} className={classes.trash} key={index} onClick={() => { deleteChat(message._id) }} />}</p>
+                                    )
+                                })
                             }
-                        }))
 
+                        </div>
+                        <div className={classes.rightfooter}>
+                            <div className={classes.inputfield}>
+                                <input className={classes.input} placeholder="Type your message" value={messageInput} onChange={(e) => { setMessageInput(e.target.value) }}></input>
+                                <div className={classes.icon}>
+                                    <FontAwesomeIcon icon={faPaperPlane} onClick={submitHandler} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
 
-                    }
-                </div>
+                {
+                    !isSelected && <div className={classes.rightbox}>
+                        <div style={{ height: '100px', width: '100px', display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center', paddingLeft: '40%', paddingTop: '200px' }}>
+                            <img src="https://cdn-icons-png.flaticon.com/512/457/457975.png" style={{
+                                height: '100%', width: '100%', marginLeft: 'auto', marginRight: 'auto'
+                            }}></img>
+                        </div>
+                    </div>
+
+                }
 
             </div>
-            {
-                selectChat &&
-                <div className={classes.rightbox}>
-
-                    <div className={classes.rightheader}>
-                        <div className={classes.profile}>
-                            <img src={selectChat.profilePic.url} className={classes.image}></img>
-
-                            <div className={classes.status}>
-                                <p className={classes.name}>{selectChat.name}</p>
-                                <p className={classes.stats}>{
-                                    onlineusers.find((user) => user.userId == selectChat._id) ? 'Online' : 'Offline'
-                                }</p>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div className={classes.rightbody}>
-                        {
-                            messages.map((message, index) => {
-                                return (
-                                    <p ref={el} className={message.sender == auth.user.user._id ? classes.sent : classes.received}>{message.message}  {message.sender == auth.user.user._id && <FontAwesomeIcon icon={faTrash} className={classes.trash} key={index} onClick={() => { deleteChat(message._id) }} />}</p>
-                                )
-                            })
-                        }
-
-                    </div>
-                    <div className={classes.rightfooter}>
-                        <div className={classes.inputfield}>
-                            <input className={classes.input} placeholder="Type your message" value={messageInput} onChange={(e) => { setMessageInput(e.target.value) }}></input>
-                            <div className={classes.icon}>
-                                <FontAwesomeIcon icon={faPaperPlane} onClick={submitHandler} />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            }
-
-            {
-                !selectChat && <div className={classes.rightbox}>
-                    <div style={{ height: '100px', width: '100px', display: 'flex', textAlign: 'center', alignItems: 'center', justifyContent: 'center', paddingLeft: '40%', paddingTop: '200px' }}>
-                        <img src="https://cdn-icons-png.flaticon.com/512/457/457975.png" style={{
-                            height: '100%', width: '100%', marginLeft: 'auto', marginRight: 'auto'
-                        }}></img>
-                    </div>
-                </div>
-
-            }
-
-        </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
+        </>
     )
 }
 

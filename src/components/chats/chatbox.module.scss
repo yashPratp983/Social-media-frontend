@@ -84,9 +84,14 @@
             position: fixed;
             width: calc(75% - 35px);
             display: flex;
-            flex-direction: column;
             background-color: #318CE7;
             color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+           .button{
+            margin-right: 20px;
+           }
             .profile{
                 height:100%;
                 display: flex;
