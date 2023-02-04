@@ -30,12 +30,14 @@ import Chats from './components/chats/chats'
 import { createContext } from 'react'
 import { io } from "socket.io-client";
 import { useOnlineuser } from './contexts/onlineusers'
+import { useMessageNotification } from './contexts/messageNotification'
+
 export const allUsers = createContext()
 export const allNotifications = createContext()
 const socket = io("http://localhost:4000");
 
 function App() {
-
+  const { messageNotification, setMessageNotification } = useMessageNotification()
   const { onlineusers, setOnlineusers } = useOnlineuser()
   const [messageReceive, setMessageReceive] = useState(null);
   const { user, setUser } = useAuth();
@@ -71,6 +73,25 @@ function App() {
     getUser();
 
   }, []);
+
+  useEffect(() => {
+    const messageNotification = async () => {
+      try {
+        const token = (localStorage.getItem('token'));
+        if (token) {
+          axios.defaults.headers.common['authorisation'] = `Bearer ${token}`;
+          const notificationOfMessages = await axios.get('http://localhost:4000/api/v1/messageNotification')
+          console.log(notificationOfMessages.data.data)
+          setMessageNotification(notificationOfMessages.data.data)
+        }
+      }
+      catch (err) {
+        console.log(err)
+      }
+    }
+
+    messageNotification()
+  }, [])
 
   useEffect(() => {
     const getNotifications = async () => {

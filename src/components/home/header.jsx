@@ -16,6 +16,9 @@ import { allUsers } from "../../App";
 import { allNotifications } from "../../App";
 import axios from "axios";
 import { useAuth } from "../../auth/auth";
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { useMessageNotification } from "../../contexts/messageNotification";
 
 const Header = () => {
     const { opendrawer, setOpendrawer } = useOpenDrawer();
@@ -25,6 +28,11 @@ const Header = () => {
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const auth = useAuth();
+    const { messageNotification, setMessageNotification } = useMessageNotification()
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const openNotify = Boolean(anchorEl);
+
     const handleClick = () => {
         setOpen(true)
     };
@@ -32,6 +40,15 @@ const Header = () => {
     const handleClose = () => {
         setOpen(false)
     };
+
+    const handleClick3 = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose1 = () => {
+        setAnchorEl(null);
+    };
+
 
     const handleClick1 = async (id) => {
         try {
@@ -147,7 +164,7 @@ const Header = () => {
             <div className={classes.icons}>
                 <FontAwesomeIcon icon={faBell} onClick={handleClick} className={classes.user} style={{ cursor: 'pointer' }} />
                 <FontAwesomeIcon icon={faUser} className={classes.message} style={{ cursor: 'pointer' }} />
-                <FontAwesomeIcon icon={faMessage} style={{ cursor: 'pointer' }} className={classes.bell} />
+                <FontAwesomeIcon icon={faMessage} onClick={handleClick3} style={{ cursor: 'pointer' }} className={classes.bell} />
             </div>
             <Dialog onClose={handleClose} open={open} style={{ zIndex: '434343665456465' }} PaperProps={{ sx: dialogStyle }}>
                 <Header>
@@ -180,6 +197,23 @@ const Header = () => {
 
                 }
             </Dialog>
+            <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={openNotify}
+                onClose={handleClose1}
+                // anchorOrigin={{
+                //     vertical: 'bottom',
+                //     horizontal: 'left',
+                // }}
+                // transformOrigin={{
+                //     vertical: 'bottom',
+                //     horizontal: 'left',
+                // }}
+                style={{ zIndex: '5757656756756757' }}
+            >
+                <MenuItem onClick={() => { handleClose1(); navigate('/chats') }}>{messageNotification.length} new messages</MenuItem>
+            </Menu>
             <div className={classes.profile} ><img className={classes.image} src={auth.user.user.profilePic.url} onClick={() => { navigate(`/profile/${auth.user.user._id}`) }} ></img></div>
             <div className={classes.bars} onClick={() => { setOpendrawer(!opendrawer); console.log(opendrawer) }}><FontAwesomeIcon icon={faBars} /></div>
         </div>

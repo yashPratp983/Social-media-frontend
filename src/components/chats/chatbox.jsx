@@ -11,6 +11,7 @@ import { useOnlineuser } from '../../contexts/onlineusers';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { io } from "socket.io-client";
+import { useMessageNotification } from '../../contexts/messageNotification';
 
 const socket = io("http://localhost:4000");
 
@@ -18,6 +19,7 @@ const socket = io("http://localhost:4000");
 
 const Chatbox = ({ messageReceive }) => {
     const [selectChat, setSelectChat] = useState({ _id: '', name: '', email: '', profilePic: '' })
+    const { messageNotification, setMessageNotification } = useMessageNotification()
 
     const [isSelected, setIsSelected] = useState(false)
     const [messages, setMessages] = useState([])
@@ -30,10 +32,34 @@ const Chatbox = ({ messageReceive }) => {
     console.log(allusers.users)
 
     const blockHandler = async () => {
-
+        try {
+            const token = localStorage.getItem('token');
+            const block = await axios.put(`http://localhost:4000/api/v1/user/blockUser/${selectChat._id}`, {}, {
+                headers: {
+                    authorisation: `Bearer ${token}`
+                }
+            })
+            console.log(auth.user)
+            const obj = { user: block.data.data, following: auth.user.following, followers: auth.user.followers }
+            auth.setUser(obj)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     const unblockHandler = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const unblock = await axios.put(`http://localhost:4000/api/v1/user/unblockUser/${selectChat._id}`, {}, {
+                headers: {
+                    authorisation: `Bearer ${token}`
+                }
+            })
+            const obj = { user: unblock.data.data, following: auth.user.following, followers: auth.user.followers }
+            auth.setUser(obj)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     useEffect(() => {
@@ -42,7 +68,22 @@ const Chatbox = ({ messageReceive }) => {
             if (selectChat._id == messageReceive.senderId) {
                 console.log(messageReceive.text, "chatbox")
                 setMessages([...messages, { message: messageReceive.text, sender: messageReceive.senderId }])
-
+                try {
+                    const token = localStorage.getItem('token');
+                    const del = axios.delete(`http://localhost:4000/api/v1/messageNotification/${selectChat._id}`, {
+                        headers: {
+                            authorisation: `Bearer ${token}`
+                        }
+                    })
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+            else {
+                const obj = { sender: messageReceive.senderId, receiver: messageReceive.receiverId, message: messageReceive.text }
+                const m = messageNotification
+                m.push(obj)
+                setMessageNotification(m)
             }
         }
     }, [messageReceive])
@@ -58,6 +99,20 @@ const Chatbox = ({ messageReceive }) => {
 
             console.log(mess.data.data)
             setMessages(mess.data.data);
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const selectChatHandler = (id) => {
+        const token = localStorage.getItem('token');
+        try {
+            const del = axios.delete(`http://localhost:4000/api/v1/messageNotification/${id}`, {
+                headers: {
+                    authorisation: `Bearer ${token}`
+                }
+            })
+            setMessageNotification(messageNotification.filter((message) => message.sender != id))
         } catch (err) {
             console.log(err)
         }
@@ -105,6 +160,7 @@ const Chatbox = ({ messageReceive }) => {
 
             console.log(mess.data.data)
             setMessages(messages.filter((message) => message._id != id))
+
         } catch (err) {
             console.log(err)
         }
@@ -134,9 +190,24 @@ const Chatbox = ({ messageReceive }) => {
                             (allusers.users.map((alluser) => {
                                 if (alluser._id != auth.user.user._id) {
                                     return (
-                                        <div className={classes.leftbodylist} onClick={() => { setSelectChat(alluser); getMessages(alluser._id); setIsSelected(true) }} key={alluser._id}>
-                                            <img src={alluser.profilePic.url} className={classes.images}></img>
-                                            <p className={classes.names}>{alluser.name}</p>
+                                        <div className={classes.leftbodylist} onClick={() => {
+                                            setSelectChat(alluser);
+                                            getMessages(alluser._id);
+                                            setIsSelected(true);
+                                            selectChatHandler(alluser._id)
+
+                                        }} key={alluser._id}>
+                                            <div className={classes.profile}>
+                                                <img src={alluser.profilePic.url} className={classes.images}></img>
+                                                <p className={classes.names}>{alluser.name}</p>
+                                            </div>
+                                            <div className={classes.notification}>
+                                                {messageNotification.length > 0 && messageNotification.filter((mess) => mess.sender == alluser._id).length != 0 && <p className={classes.number}>
+                                                    {
+                                                        messageNotification.filter((mess) => mess.sender == alluser._id).length
+                                                    }
+                                                </p>}
+                                            </div>
                                         </div>
                                     )
                                 }

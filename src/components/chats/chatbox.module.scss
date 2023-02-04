@@ -51,24 +51,53 @@
             .leftbodylist{
                 height: 70px;
                 display: flex;
+                justify-content: space-between;
                 align-items: center;
                 padding: 5px;
-                .images{
-                    height: 40px;
-                    width: 40px;
-                    border-radius: 50%;
-                    margin: 10px;
+                padding-right: 20px;
+                .profile{
+                    display: flex;
+                    align-items: center;
+                    .images{
+                        height: 40px;
+                        width: 40px;
+                        border-radius: 50%;
+                        margin: 10px;
+                    }
+                    .names{
+                        font-size: 18px;
+                        font-weight: 600;
+                        margin: 10px;
+                    }
                 }
-                .names{
-                    font-size: 18px;
-                    font-weight: 600;
-                    margin: 10px;
+                .notification{
+                    align-items: center;
+                    text-align: center;
+                    display: flex;
+                    justify-content: center;
+                   .number{
+                    height: 18px;
+                    width: 18px;
+                    font-size: 12px;
+                    text-align: center;
+                    align-items: center;
+                    border-radius: 50%;
+                    background-color: #318CE7;
+                    color: white;
+                   }
+
                 }
             }
             .leftbodylist:hover{
                 background-color: #318CE7;
                 .names{
                     color: white;
+                }
+                .notification{
+                    .number{
+                        background-color: white;
+                        color: #318CE7;
+                    }
                 }
             }
         }
@@ -91,7 +120,16 @@
             justify-content: space-between;
            .button{
             margin-right: 20px;
+            background-color: white;
+            color: #318CE7;
+            border: none;
+            border-radius: 20px;
+            padding: 5px 10px;
+            cursor: pointer;
            }
+              .button:hover{
+                background-color: 	#E0E0E0;
+              }
             .profile{
                 height:100%;
                 display: flex;
