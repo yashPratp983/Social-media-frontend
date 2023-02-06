@@ -33,6 +33,44 @@
     background-color: #f6f6f6;
     border-radius: 25px;
     padding-left: 10px;
+    position: relative;
+    .searchItems{
+        width: 70%;
+        border-radius: 10px;
+        max-height: 200px;
+        position: absolute;
+        background-color: #f6f6f6;
+        top: 40px;
+        overflow: hidden;
+        overflow-y: auto;
+        overflow-x: auto;
+        .item{
+            padding: 10px;
+            font-size: 15px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 700;
+            color: grey;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            
+            &:hover{
+                background-color:#B8B8B8 ;
+                color: white;
+            }
+            .image{
+                width: 35px;
+                height: 35px;
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+            .name{
+                font-size: 15px;
+                font-family: 'Roboto', sans-serif;
+                
+            }
+        }
+    }
     .inputField{
         outline: none;
         border: none;
@@ -148,3 +186,23 @@
 .bell:hover{
     color:#F0FFFF;
 }
+
+/* width */
+.searchItems::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  /* Track */
+  .searchItems::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  .searchItems::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  .searchItems::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }

@@ -42,7 +42,7 @@ display: flex;
 align-items: center;
 `
 
-const Following = ({ user, following }) => {
+const Following = ({ user, following, setUser }) => {
     const [allFollowing, setAllFollowing] = useState(following);
     const { openfollowingdialog, setOpenfollowingdialog } = useOpenDialog();
     const auth = useAuth();
@@ -58,6 +58,9 @@ const Following = ({ user, following }) => {
                 { headers: { authorisation: `Bearer ${token}` } });
             console.log(res);
             setAllFollowing(allFollowing.filter((following) => following._id != id));
+            const u = user;
+            u.user.following = u.user.following.filter((following) => following._id != id);
+            setUser(u);
         } catch (err) {
             console.log(err);
         }

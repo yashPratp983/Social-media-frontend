@@ -19,6 +19,8 @@ import { useAuth } from "../../auth/auth";
 
 const Header = () => {
     const { opendrawer, setOpendrawer } = useOpenDrawer();
+    const [filteredArray, setFilteredArray] = useState([])
+    const [search, setSearch] = useState('')
     const users = useContext(allUsers)
     const notifications = useContext(allNotifications)
     console.log(users.users, notifications.notifications)
@@ -32,6 +34,15 @@ const Header = () => {
     const handleClose = () => {
         setOpen(false)
     };
+
+    const searchHandler = (e) => {
+        setSearch(e.target.value)
+        setFilteredArray(users.users.filter((item) => item.name.toLowerCase().includes(e.target.value.toLowerCase())))
+        if (e.target.value === '') {
+            setFilteredArray([])
+        }
+
+    }
 
     const handleClick1 = async (id) => {
         try {
@@ -142,7 +153,16 @@ const Header = () => {
             </div>
             <div className={classes.input}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} className={classes.search}></FontAwesomeIcon>
-                <input className={classes.inputField} placeholder="Search for friend"></input>
+                <input className={classes.inputField} placeholder="Search for friend" value={search} onChange={searchHandler}></input>
+                {filteredArray.length != 0 && <div className={classes.searchItems}>
+                    {filteredArray.map((item) => {
+                        return (
+                            <div className={classes.item} onClick={() => { navigate(`/profile/${item._id}`) }}>
+                                <img src={item.profilePic.url} className={classes.image}></img>
+                                <p className={classes.name}>{item.name}</p>
+                            </div>)
+                    })}
+                </div>}
             </div>
             <div className={classes.icons}>
                 <FontAwesomeIcon icon={faBell} onClick={handleClick} className={classes.user} style={{ cursor: 'pointer' }} />

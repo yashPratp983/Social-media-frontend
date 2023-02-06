@@ -5,7 +5,7 @@ import { useOpenDrawer } from "../../contexts/open-drawer";
 import { useNavigate } from "react-router";
 import DialogTitle from '@mui/material/DialogTitle';
 import Dialog from '@mui/material/Dialog';
-import { Typography, Box, styled } from "@mui/material";
+import { Drawer, Box, Typography, styled } from '@mui/material'
 import React from "react";
 import zIndex from "@mui/material/styles/zIndex";
 import { useState } from "react";
@@ -22,14 +22,15 @@ import { useMessageNotification } from "../../contexts/messageNotification";
 
 const Header = () => {
     const { opendrawer, setOpendrawer } = useOpenDrawer();
+    const [filteredArray, setFilteredArray] = useState([])
+    const [search, setSearch] = useState('')
     const users = useContext(allUsers)
     const notifications = useContext(allNotifications)
     console.log(users.users, notifications.notifications)
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const auth = useAuth();
-    const { messageNotification, setMessageNotification } = useMessageNotification()
-
+    const { messageNotification, setMessageNotification } = useMessageNotification();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openNotify = Boolean(anchorEl);
 
@@ -49,6 +50,14 @@ const Header = () => {
         setAnchorEl(null);
     };
 
+    const searchHandler = (e) => {
+        setSearch(e.target.value)
+        setFilteredArray(users.users.filter((item) => item.name.toLowerCase().includes(e.target.value.toLowerCase())))
+        if (e.target.value === '') {
+            setFilteredArray([])
+        }
+
+    }
 
     const handleClick1 = async (id) => {
         try {
@@ -159,11 +168,20 @@ const Header = () => {
             </div>
             <div className={classes.input}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} className={classes.search}></FontAwesomeIcon>
-                <input className={classes.inputField} placeholder="Search for friend"></input>
+                <input className={classes.inputField} placeholder="Search for friend" value={search} onChange={searchHandler}></input>
+                {filteredArray.length != 0 && <div className={classes.searchItems}>
+                    {filteredArray.map((item) => {
+                        return (
+                            <div className={classes.item} onClick={() => { navigate(`/profile/${item._id}`) }}>
+                                <img src={item.profilePic.url} className={classes.image}></img>
+                                <p className={classes.name}>{item.name}</p>
+                            </div>)
+                    })}
+                </div>}
             </div>
             <div className={classes.icons}>
                 <FontAwesomeIcon icon={faBell} onClick={handleClick} className={classes.user} style={{ cursor: 'pointer' }} />
-                <FontAwesomeIcon icon={faUser} className={classes.message} style={{ cursor: 'pointer' }} />
+                <FontAwesomeIcon icon={faUser} className={classes.message} onClick={() => { navigate(`/profile/${auth.user.user._id}`) }} style={{ cursor: 'pointer' }} />
                 <FontAwesomeIcon icon={faMessage} onClick={handleClick3} style={{ cursor: 'pointer' }} className={classes.bell} />
             </div>
             <Dialog onClose={handleClose} open={open} style={{ zIndex: '434343665456465' }} PaperProps={{ sx: dialogStyle }}>
@@ -216,6 +234,7 @@ const Header = () => {
             </Menu>
             <div className={classes.profile} ><img className={classes.image} src={auth.user.user.profilePic.url} onClick={() => { navigate(`/profile/${auth.user.user._id}`) }} ></img></div>
             <div className={classes.bars} onClick={() => { setOpendrawer(!opendrawer); console.log(opendrawer) }}><FontAwesomeIcon icon={faBars} /></div>
+
         </div>
     )
 }

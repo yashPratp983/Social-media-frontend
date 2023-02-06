@@ -111,8 +111,8 @@ const SinglePost = ({ post, postState }) => {
             </div>}
             {(src >= add.length) && <div className={classes.image}>
                 <video style={{ width: '100%', aspectRatio: '0.70' }} controls><source src={address} type="video/mp4"></source></video>
-                {(src != 0) && <FontAwesomeIcon icon={faCircleArrowLeft} className={classes.left} onClick={() => { setSrc(src - 1); setAddress(addBoth[src - 1]).url }} />}
-                {(src != addBoth.length - 1) && <FontAwesomeIcon icon={faCircleArrowRight} className={classes.right} onClick={() => { setSrc(src + 1); setAddress(addBoth[src + 1].url) }} />}
+                {(src != 0) && <FontAwesomeIcon icon={faCircleArrowLeft} className={classes.left} onClick={() => { setSrc(src - 1); setAddress(Object(addBoth[src - 1]).url) }} />}
+                {(src != addBoth.length - 1) && <FontAwesomeIcon icon={faCircleArrowRight} className={classes.right} onClick={() => { setSrc(src + 1); setAddress(Object(addBoth[src + 1]).url) }} />}
             </div>}
             <div className={classes.footer}>
                 <div className={classes.likes}>

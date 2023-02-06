@@ -13,19 +13,28 @@ import { useState } from 'react';
 const Background = ({ user, posts, followers, following }) => {
     const auth = useAuth();
     const notification = useContext(allNotifications)
+    // const { user, setUser } = useAuth()
+    const { notifications, setNotifications } = useContext(allNotifications)
     const navigate = useNavigate();
     console.log(notification.notifications, "userjnn")
     const openDialog = useOpenDialog();
     const [follow, setFollow] = useState(false)
     const [unfollow, setUnfollow] = useState(false)
-    console.log(user, "user")
+    const [request, setRequest] = useState(false)
+    // console.log(user, "user")
     const followHandler = async () => {
         try {
             const token = localStorage.getItem('token')
-            const notification = await axios.post(`http://localhost:4000/api/v1/notifications`, { user: user._id },
+            const notificatio = await axios.post(`http://localhost:4000/api/v1/notifications`, { user: user._id },
                 { headers: { 'authorisation': `Bearer ${token}` } }
             )
-            setFollow(true)
+            const notify = notification.notifications;
+            console.log(notify, "notify")
+            notify.status.push(user._id);
+            console.log(notify, "notify")
+            notification.setNotifications(notify)
+            setNotifications(notify)
+            setFollow(!follow)
             console.log(notification)
         } catch (err) {
             console.log(err)
@@ -39,7 +48,11 @@ const Background = ({ user, posts, followers, following }) => {
                 { headers: { 'authorisation': `Bearer ${token}` } }
             )
             console.log(unfollow)
-            setUnfollow(true)
+            const u = auth.user;
+            u.user.following = u.user.following.filter((item) => item !== user._id)
+            auth.setUser(u)
+            // setUser(u)
+            setFollow(!follow)
         } catch (err) {
             console.log(err)
         }
@@ -59,9 +72,9 @@ const Background = ({ user, posts, followers, following }) => {
                             <p className={classes.social} onClick={() => { if (following) { openDialog.setOpenfollowingdialog(true) } }}>{user.following} Following</p>
                         </div>
                         {(user._id == auth.user.user._id) && <button className={classes.button} onClick={() => { navigate('/editprofile') }}>Edit Profile</button>}
-                        {((user._id != auth.user.user._id && !auth.user.user.following.includes(user._id) && !follow && !notification.notifications.status.includes(user._id)) || unfollow) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={(() => { followHandler() })}>Follow</div>}
-                        {(user._id != auth.user.user._id && auth.user.user.following.includes(user._id) && !unfollow) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { unfollowHandler() }}>Unfollow</div>}
-                        {((user._id != auth.user.user._id && notification.notifications.status.includes(user._id)) || follow) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Requested</div>}
+                        {(user._id != auth.user.user._id && !auth.user.user.following.includes(user._id) && !notification.notifications.status.includes(user._id)) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={(() => { followHandler() })}>Follow</div>}
+                        {(user._id != auth.user.user._id && auth.user.user.following.includes(user._id)) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { unfollowHandler() }}>Unfollow</div>}
+                        {((user._id != auth.user.user._id && notification.notifications.status.includes(user._id))) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Requested</div>}
                     </div>
                 </div>
             </div>

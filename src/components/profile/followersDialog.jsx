@@ -45,7 +45,7 @@ display: flex;
 align-items: center;
 `
 
-const Followers = ({ user, followers }) => {
+const Followers = ({ user, followers, setUser }) => {
     const [allFollowers, setAllFollowers] = useState(followers);
 
     // const allUser = useContext(allUsers);
@@ -64,6 +64,9 @@ const Followers = ({ user, followers }) => {
             const res = await axios.put(`http://localhost:4000/api/v1/user/block/${id}`, {},
                 { headers: { authorisation: `Bearer ${token}` } });
             setAllFollowers(allFollowers.filter((following) => following._id !== id));
+            const u = user;
+            u.user.followers = u.user.followers.filter((following) => following._id !== id);
+            setUser(u);
         } catch (err) {
             console.log(err);
         }

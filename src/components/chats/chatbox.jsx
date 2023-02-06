@@ -20,16 +20,22 @@ const socket = io("http://localhost:4000");
 const Chatbox = ({ messageReceive }) => {
     const [selectChat, setSelectChat] = useState({ _id: '', name: '', email: '', profilePic: '' })
     const { messageNotification, setMessageNotification } = useMessageNotification()
+    const [search, setSearch] = useState('')
 
     const [isSelected, setIsSelected] = useState(false)
     const [messages, setMessages] = useState([])
     const { onlineusers, setOnlineusers } = useOnlineuser()
     const allusers = useContext(allUsers);
+    const [filteredUsers, setFilteredUsers] = useState(allusers.users)
     const [messageInput, setMessageInput] = useState('')
     const el = useRef(null)
 
     const auth = useAuth();
     console.log(allusers.users)
+
+    useEffect(() => {
+        setFilteredUsers(allusers.users)
+    }, [allusers.users])
 
     const blockHandler = async () => {
         try {
@@ -149,6 +155,13 @@ const Chatbox = ({ messageReceive }) => {
         }
     }
 
+    const searchHandler = (e) => {
+        setSearch(e.target.value)
+        const filtered = allusers.users.filter((user) => user.name.toLowerCase().includes(e.target.value.toLowerCase()))
+        setFilteredUsers(filtered)
+        console.log("called")
+    }
+
     const deleteChat = async (id) => {
         const token = localStorage.getItem('token');
         try {
@@ -181,13 +194,13 @@ const Chatbox = ({ messageReceive }) => {
                             <div className={classes.icon}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </div>
-                            <input className={classes.input} placeholder="Search your conversation"></input>
+                            <input className={classes.input} placeholder="Search your conversation" onChange={searchHandler} value={search}></input>
                         </div>
                     </div>
                     <div className={classes.leftbody}>
                         {
-
-                            (allusers.users.map((alluser) => {
+                            filteredUsers && filteredUsers.length > 0 &&
+                            (filteredUsers.map((alluser) => {
                                 if (alluser._id != auth.user.user._id) {
                                     return (
                                         <div className={classes.leftbodylist} onClick={() => {

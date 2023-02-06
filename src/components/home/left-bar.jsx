@@ -2,9 +2,19 @@ import { Drawer, Box, Typography, styled } from '@mui/material'
 import zIndex from '@mui/material/styles/zIndex';
 import { faRss, faMessage, faVideo, faUserGroup, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { borderBottom } from '@mui/system';
+import { useNavigate } from 'react-router';
+import { useAuth } from '../../auth/auth';
+import { allUsers } from '../../App';
+import { useContext } from 'react';
+import { useOnlineuser } from '../../contexts/onlineusers';
 
 const LeftBar = () => {
+    const navigate = useNavigate();
+    const { users, setUsers } = useContext(allUsers)
+    const auth = useAuth();
+    const { onlineusers, setOnlineusers } = useOnlineuser()
     const leftBar = {
         // position: 'absolute',
         top: '70px',
@@ -36,7 +46,6 @@ const LeftBar = () => {
 
     }
 
-
     const Section = styled(Box)`
     display:flex;
     padding-top:30px;
@@ -64,6 +73,13 @@ const LeftBar = () => {
         margin-right:20px;
     }
     `
+
+    const logoutHandler = () => {
+        localStorage.removeItem('token');
+        auth.setUser(null)
+        navigate('/login');
+    }
+
     return (
         <Drawer anchor='left' open={true} className='leftBar' BackdropProps={{ invisible: true }} PaperProps={{
             sx: leftBar, elevation: 9,
@@ -73,68 +89,28 @@ const LeftBar = () => {
                     <FontAwesomeIcon icon={faRss} style={{ paddingRight: '20px', width: '20px' }} />
                     <Typography>Feed</Typography>
                 </Section>
-                <Section>
+                <Section onClick={() => { navigate('/chats') }}>
                     <FontAwesomeIcon icon={faMessage} style={{ paddingRight: '20px', width: '20px' }} />
                     <Typography>Chats</Typography>
                 </Section>
-                <Section>
-                    <FontAwesomeIcon icon={faVideo} style={{ paddingRight: '20px', width: '20px' }} />
-                    <Typography>Videos</Typography>
-                </Section>
-                <Section>
-                    <FontAwesomeIcon icon={faUserGroup} style={{ paddingRight: '20px', width: '20px' }} />
-                    <Typography>Groups</Typography>
-                </Section>
-                <Section>
-                    <FontAwesomeIcon icon={faBookmark} style={{ paddingRight: '20px', width: '20px' }} />
-                    <Typography>Bookmarks</Typography>
+                <Section onClick={logoutHandler}>
+                    <FontAwesomeIcon icon={faRightFromBracket} style={{ paddingRight: '20px', width: '20px' }} />
+                    <Typography>Sign out</Typography>
                 </Section>
             </Component>
             <Component2>
-                <Friends>
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                    <Typography>Heisenberg</Typography>
-                </Friends>
-                <Friends>
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                    <Typography>Heisenberg</Typography>
-                </Friends>
-                <Friends>
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                    <Typography>Heisenberg</Typography>
-                </Friends>
-                <Friends>
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                    <Typography>Heisenberg</Typography>
-                </Friends>
-                <Friends>
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                    <Typography>Heisenberg</Typography>
-                </Friends>
-                <Friends>
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                    <Typography>Heisenberg</Typography>
-                </Friends>
-                <Friends>
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                    <Typography>Heisenberg</Typography>
-                </Friends>
-                <Friends>
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                    <Typography>Heisenberg</Typography>
-                </Friends>
-                <Friends>
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                    <Typography>Heisenberg</Typography>
-                </Friends>
-                <Friends>
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                    <Typography>Heisenberg</Typography>
-                </Friends>
-                <Friends>
-                    <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"></img>
-                    <Typography>Heisenberg</Typography>
-                </Friends>
+                {
+                    users.length > 0 && users.map((user) => {
+                        if (user._id !== auth.user._id && auth.user.user.following.includes(user._id)) {
+                            return (
+                                <Friends onClick={() => { navigate(`/profile/${user._id}`) }}>
+                                    <img src={user.profilePic.url}></img>
+                                    <Typography>{user.name}</Typography>
+                                </Friends>
+                            )
+                        }
+                    }
+                    )}
             </Component2>
         </Drawer>
     )

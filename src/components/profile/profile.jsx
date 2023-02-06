@@ -1,6 +1,6 @@
 // import Header from "./header";
 import Header from "../home/header";
-import MobileDrawer from "./profileDrawer";
+import MobileDrawer from "../home/posts/mobileDrawer";
 import { useOpenDrawer } from "../../contexts/open-drawer";
 import ProfileBar from "./profileBar";
 import Background from "./profileheader";
@@ -94,13 +94,13 @@ const Profile = () => {
 
                     <Header />
                     <ProfileBar />
-                    {(posts && user) && <Background user={user} posts={posts} followers={followers} following={following} />}
-                    {((!posts && user) && <Background user={user} followers={followers} following={following} />)}
+                    {(posts && user) && <Background user={user} posts={posts} followers={followers} following={following} setUser={setUser} />}
+                    {((!posts && user) && <Background user={user} followers={followers} following={following} setUser={setUser} />)}
                     <AddPost />
                     {(posts && (posts.length > 0)) && <Posts user={user} posts={posts} />}
                     <MobileDrawer />
-                    {followers && <Followers user={user} followers={followers} />}
-                    {following && <Following user={user} following={following} />}
+                    {followers && <Followers user={user} followers={followers} setUser={setUser} />}
+                    {following && <Following user={user} following={following} setUser={setUser} />}
 
                 </div>
             }
