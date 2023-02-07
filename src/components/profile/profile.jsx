@@ -11,6 +11,7 @@ import Following from "./followingDialog";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
+import { useAuth } from "../../auth/auth";
 
 
 const Profile = () => {
@@ -21,7 +22,7 @@ const Profile = () => {
     const [followers, setFollowers] = useState(null);
     const [following, setFollowing] = useState(null);
     const { id } = useParams();
-
+    const auth = useAuth();
     const url = window.location.pathname.split('/').pop();
 
     console.log(id)
@@ -78,7 +79,7 @@ const Profile = () => {
         getDetails();
         getFollows();
         console.log("reloaded gfhfghfhgjhfgj")
-    }, [id])
+    }, [id, auth.user])
 
 
 

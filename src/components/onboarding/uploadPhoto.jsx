@@ -15,6 +15,7 @@ const uploadPhoto = () => {
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
     const [error, setError] = useState(null);
+    const [disabled, setDisabled] = useState(false);
     const types = ['image/png', 'image/jpeg'];
     const handleChange = (e) => {
         let selected = e.target.files[0];
@@ -27,6 +28,7 @@ const uploadPhoto = () => {
         }
     };
     const submitHandler = async () => {
+        setDisabled(true)
         if (file) {
             try {
                 const formData = new FormData();
@@ -40,8 +42,10 @@ const uploadPhoto = () => {
                 })
                 console.log(user)
                 navigate('/description')
+                setDisabled(false)
             }
             catch (err) {
+                setDisabled(false)
                 console.log(err)
             }
         } else {
@@ -90,7 +94,7 @@ const uploadPhoto = () => {
                 </div>
                 <div className='buttoms'>
                     <button className='buttom' type='button' onClick={() => { navigate('/description') }} >Skip</button>
-                    <button className='buttom2' type='button' onClick={submitHandler}>Next</button>
+                    <button className='buttom2' type='button' onClick={submitHandler} disabled={disabled}>Next</button>
                 </div>
                 {error && <div className="error">{error}</div>}
             </div>

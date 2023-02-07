@@ -8,6 +8,7 @@ import { allUsers } from '../../App';
 import { useContext } from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 import { useParams } from 'react-router';
 
@@ -45,9 +46,10 @@ display: flex;
 align-items: center;
 `
 
-const Followers = ({ user, followers, setUser }) => {
+const Followers = ({ user, followers }) => {
     const [allFollowers, setAllFollowers] = useState(followers);
-
+    const navigate = useNavigate();
+    const [rerender, setRerender] = useState(false);
     // const allUser = useContext(allUsers);
     // console.log(allUser, "alluser", user);
     const { opendialog, setOpendialog } = useOpenDialog();
@@ -64,9 +66,15 @@ const Followers = ({ user, followers, setUser }) => {
             const res = await axios.put(`http://localhost:4000/api/v1/user/block/${id}`, {},
                 { headers: { authorisation: `Bearer ${token}` } });
             setAllFollowers(allFollowers.filter((following) => following._id !== id));
-            const u = user;
-            u.user.followers = u.user.followers.filter((following) => following._id !== id);
-            setUser(u);
+            let u = auth.user;
+            console.log(id, "id")
+            console.log(u, "before change")
+            u.user.followers = u.user.followers.filter((following) => following !== id);
+            u.followers = u.followers - 1;
+            console.log(u, "after change")
+            auth.setUser({ ...u, user: u.user, followers: u.followers });
+            setUser({ ...user, followers: user.followers - 1 })
+            setRerender(!rerender);
         } catch (err) {
             console.log(err);
         }
@@ -83,7 +91,7 @@ const Followers = ({ user, followers, setUser }) => {
                     return (
                         <Follower key={follow._id}>
                             <FollowerList>
-                                <Image src={follow.profilePic.url}></Image>
+                                <Image src={follow.profilePic.url} style={{ cursor: 'pointer' }} onClick={() => { navigate(`/profile/${follow._id}`); setOpendialog(false) }}></Image>
                                 <Typography>{follow.name}</Typography>
                             </FollowerList>
                             {(auth.user.user._id == id) && (<Box>

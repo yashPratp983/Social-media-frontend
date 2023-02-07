@@ -21,7 +21,10 @@ const Header = () => {
             <div className={classes.icons}>
                 <FontAwesomeIcon icon={faUser} className={classes.user} />
                 <FontAwesomeIcon icon={faMessage} className={classes.message} />
-                <FontAwesomeIcon icon={faBell} />
+                <div className={classes.followNotification}>
+
+                    <FontAwesomeIcon icon={faBell} />
+                </div>
             </div>
             <div className={classes.profile} ><img className={classes.image} src={auth.user.user.profilePic.url} onClick={() => { navigate('/profile') }} ></img></div>
             <div className={classes.bars} onClick={() => { setOpendrawerProfile(!opendrawerProfile); console.log(opendrawerProfile) }}><FontAwesomeIcon icon={faBars} /></div>

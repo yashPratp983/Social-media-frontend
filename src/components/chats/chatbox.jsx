@@ -21,6 +21,7 @@ const Chatbox = ({ messageReceive }) => {
     const [selectChat, setSelectChat] = useState({ _id: '', name: '', email: '', profilePic: '' })
     const { messageNotification, setMessageNotification } = useMessageNotification()
     const [search, setSearch] = useState('')
+    const [disabled, setDisabled] = useState(false)
 
     const [isSelected, setIsSelected] = useState(false)
     const [messages, setMessages] = useState([])
@@ -29,6 +30,7 @@ const Chatbox = ({ messageReceive }) => {
     const [filteredUsers, setFilteredUsers] = useState(allusers.users)
     const [messageInput, setMessageInput] = useState('')
     const el = useRef(null)
+    const [rerender, setRerender] = useState(false)
 
     const auth = useAuth();
     console.log(allusers.users)
@@ -90,6 +92,7 @@ const Chatbox = ({ messageReceive }) => {
                 const m = messageNotification
                 m.push(obj)
                 setMessageNotification(m)
+                setRerender(!rerender)
             }
         }
     }, [messageReceive])
@@ -126,32 +129,38 @@ const Chatbox = ({ messageReceive }) => {
 
     const submitHandler = async () => {
         const token = localStorage.getItem('token');
+
         const data = {
             message: messageInput
         }
-        try {
-            const mess = await axios.post(`http://localhost:4000/api/v1/messages/${selectChat._id}`, data, {
-                headers: {
-                    authorisation: `Bearer ${token}`
-                }
-            })
+        if (!disabled && messageInput !== '') {
+            setDisabled(true)
+            try {
+                const mess = await axios.post(`http://localhost:4000/api/v1/messages/${selectChat._id}`, data, {
+                    headers: {
+                        authorisation: `Bearer ${token}`
+                    }
+                })
 
-            console.log(mess.data.data)
-            setMessages([...messages, mess.data.data]);
-            socket.emit('send-message', { text: messageInput, receiverId: selectChat._id, senderId: auth.user.user._id })
-            setMessageInput('')
-        } catch (err) {
-            console.log(err)
-            toast.info(`${err.response.data.error}`, {
-                position: "bottom-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "dark",
-            });
+                console.log(mess.data.data)
+                setMessages([...messages, mess.data.data]);
+                setDisabled(false)
+                socket.emit('send-message', { text: messageInput, receiverId: selectChat._id, senderId: auth.user.user._id })
+                setMessageInput('')
+            } catch (err) {
+                console.log(err)
+                setDisabled(false)
+                toast.info(`${err.response.data.error}`, {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            }
         }
     }
 
@@ -215,7 +224,7 @@ const Chatbox = ({ messageReceive }) => {
                                                 <p className={classes.names}>{alluser.name}</p>
                                             </div>
                                             <div className={classes.notification}>
-                                                {messageNotification.length > 0 && messageNotification.filter((mess) => mess.sender == alluser._id).length != 0 && <p className={classes.number}>
+                                                {messageNotification.length > 0 && messageNotification.filter((mess) => mess.sender == alluser._id).length > 0 && <p className={classes.number}>
                                                     {
                                                         messageNotification.filter((mess) => mess.sender == alluser._id).length
                                                     }
@@ -265,7 +274,7 @@ const Chatbox = ({ messageReceive }) => {
                         </div>
                         <div className={classes.rightfooter}>
                             <div className={classes.inputfield}>
-                                <input className={classes.input} placeholder="Type your message" value={messageInput} onChange={(e) => { setMessageInput(e.target.value) }}></input>
+                                <input className={classes.input} placeholder="Type your message" value={messageInput} onChange={(e) => { setMessageInput(e.target.value) }} ></input>
                                 <div className={classes.icon}>
                                     <FontAwesomeIcon icon={faPaperPlane} onClick={submitHandler} />
                                 </div>

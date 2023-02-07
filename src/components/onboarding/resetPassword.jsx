@@ -14,6 +14,7 @@ import axios from 'axios';
 const ResetPassword = () => {
     const auth = useAuth();
     const navigate = useNavigate();
+    const [disabled, setDisabled] = useState(false);
     const { token } = useParams();
     const [toastMessage, setToastMessage] = useState('')
     const formSchema = Yup.object().shape({
@@ -28,13 +29,16 @@ const ResetPassword = () => {
     const formOptions = { resolver: yupResolver(formSchema) }
     const { register, handleSubmit, reset, formState: { errors } } = useForm(formOptions)
     const submitHandler = async (data) => {
+        setDisabled(true)
         try {
             const dat = await axios.post(`http://localhost:4000/api/v1/user/resetPassword/${token}`, data)
             if (dat.status === 200) {
                 localStorage.setItem('token', dat.data.token)
                 navigate('/')
             }
+            setDisabled(false)
         } catch (err) {
+            setDisabled(false)
             toast.info(`${err.response.data.error}`, {
                 position: "bottom-right",
                 autoClose: 5000,
@@ -69,7 +73,7 @@ const ResetPassword = () => {
                         {...register('confirmPwd')}
                     ></input>
                     <p className={classes.error}>{errors.confirmPwd?.message}</p>
-                    <button type="submit" className={classes.button} onClick={() => { if (errors) { console.log(errors) } }}>Submit</button>
+                    <button type="submit" className={classes.button} onClick={() => { if (errors) { console.log(errors) } }} disabled={disabled}>Submit</button>
                 </form>
 
             </div>

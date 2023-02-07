@@ -8,10 +8,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../auth/auth';
 import { useNavigate } from 'react-router';
+import { useState, useEffect } from 'react';
 
 const ChangeDetails = ({ setChange }) => {
     const auth = useAuth();
     const navigate = useNavigate();
+    const [disabled, setDisabled] = useState(false);
     const formSchema = Yup.object().shape({
         email: Yup.string()
             .email('Email is invalid')
@@ -27,6 +29,7 @@ const ChangeDetails = ({ setChange }) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm(formOptions)
 
     const submitHandler = async (data) => {
+        setDisabled(true);
         if (data.email === '') {
             data.email = auth.user.email;
         }
@@ -38,8 +41,11 @@ const ChangeDetails = ({ setChange }) => {
         }
         try {
             let dat = await axios.put('http://localhost:4000/api/v1/user/update', data);
+            setDisabled(false);
             console.log(dat);
-            auth.setUser(dat.data.data);
+            const user = auth.user;
+            user.user = dat.data.data;
+            auth.setUser(user);
             if (dat.data.data === "Email sent") {
                 toast.info("Please verify your email", {
                     position: "bottom-right",
@@ -68,6 +74,7 @@ const ChangeDetails = ({ setChange }) => {
 
         } catch (err) {
             console.log(err)
+            setDisabled(false);
             toast.info(`${err.response.data.error}`, {
                 position: "bottom-right",
                 autoClose: 5000,
@@ -80,6 +87,10 @@ const ChangeDetails = ({ setChange }) => {
             });
         }
     }
+
+    useEffect(() => {
+        setDisabled(false);
+    }, [auth.user])
 
     return (
         <>
@@ -108,7 +119,7 @@ const ChangeDetails = ({ setChange }) => {
                             </div>
                         </div>
                         <div className={classes.footer}>
-                            <button type='submit' className={classes.button}>Save Changes</button>
+                            <button type='submit' className={classes.button} disabled={disabled} >Save Changes</button>
                             <p className={classes.password} onClick={() => { setChange(2) }}>Change Password</p>
                             <p className={classes.email} onClick={() => { setChange(1) }}>Change info</p>
                         </div>

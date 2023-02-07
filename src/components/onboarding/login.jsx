@@ -12,6 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
+    const [disabled, setDisabled] = useState(false);
     const auth = useAuth();
     const navigate = useNavigate();
 
@@ -52,15 +53,19 @@ const Login = () => {
 
 
     const submitHandler = async (data) => {
+        setDisabled(true);
         console.log(data);
         try {
             let tok = await axios.post('http://localhost:4000/api/v1/user/login', data);
+
             console.log(tok.data.token);
             localStorage.setItem('token', tok.data.token);
             getUser();
+            setDisabled(false);
 
         } catch (err) {
             console.log(err.response.data.error)
+            setDisabled(false);
             toast.info(`${err.response.data.error}`, {
                 position: "bottom-right",
                 autoClose: 5000,
@@ -84,7 +89,7 @@ const Login = () => {
                     <input placeholder="Password" type="password" className={classes.input} {...register('password')}></input>
                     <p className={classes.error}>{errors.password?.message}</p>
                     <p className={classes.forgotpassword} onClick={() => { navigate('/forgotpassword') }}>Forgot Password?</p>
-                    <button type="submit" className={classes.button}>Sign in</button>
+                    <button type="submit" className={classes.button} disabled={disabled}>Sign in</button>
                     <p className={classes.question}>Don't have an account?</p>
                     <NavLink to="/register" className={classes.register}><button className={classes.registerButton}>Sign up</button></NavLink>
                 </form>

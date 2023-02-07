@@ -19,6 +19,7 @@ import { useAuth } from "../../auth/auth";
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useMessageNotification } from "../../contexts/messageNotification";
+import { useRef } from "react";
 
 const Header = () => {
     const { opendrawer, setOpendrawer } = useOpenDrawer();
@@ -33,6 +34,8 @@ const Header = () => {
     const { messageNotification, setMessageNotification } = useMessageNotification();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openNotify = Boolean(anchorEl);
+    const searchRef = useRef()
+    const [focus, setFocus] = useState(false)
 
     const handleClick = () => {
         setOpen(true)
@@ -75,6 +78,11 @@ const Header = () => {
             notifications.setNotifications({
                 ...notifications.notifications, request: r
             })
+
+            const u = auth.user;
+            u.user.followers.push(id)
+            u.followers = u.followers + 1;
+            auth.setUser({ ...u, user: u.user, followers: u.followers })
         } catch (err) {
             console.log(err);
         }
@@ -168,11 +176,11 @@ const Header = () => {
             </div>
             <div className={classes.input}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} className={classes.search}></FontAwesomeIcon>
-                <input className={classes.inputField} placeholder="Search for friend" value={search} onChange={searchHandler}></input>
+                <input className={classes.inputField} ref={searchRef} placeholder="Search for friend" value={search} onChange={searchHandler}></input>
                 {filteredArray.length != 0 && <div className={classes.searchItems}>
                     {filteredArray.map((item) => {
                         return (
-                            <div className={classes.item} onClick={() => { navigate(`/profile/${item._id}`) }}>
+                            <div className={classes.item} onClick={() => { navigate(`/profile/${item._id}`); setSearch(''); setFilteredArray([]) }}>
                                 <img src={item.profilePic.url} className={classes.image}></img>
                                 <p className={classes.name}>{item.name}</p>
                             </div>)
@@ -180,9 +188,15 @@ const Header = () => {
                 </div>}
             </div>
             <div className={classes.icons}>
-                <FontAwesomeIcon icon={faBell} onClick={handleClick} className={classes.user} style={{ cursor: 'pointer' }} />
+                <div className={classes.followNotification}>
+                    {notifications.notifications.request.length > 0 && <p className={classes.number}>{notifications.notifications.request.length}</p>}
+                    <FontAwesomeIcon icon={faBell} onClick={handleClick} className={classes.user} style={{ cursor: 'pointer' }} />
+                </div>
                 <FontAwesomeIcon icon={faUser} className={classes.message} onClick={() => { navigate(`/profile/${auth.user.user._id}`) }} style={{ cursor: 'pointer' }} />
-                <FontAwesomeIcon icon={faMessage} onClick={handleClick3} style={{ cursor: 'pointer' }} className={classes.bell} />
+                <div className={classes.messageNotification}>
+                    <FontAwesomeIcon icon={faMessage} onClick={handleClick3} style={{ cursor: 'pointer' }} className={classes.bell} />
+                    {messageNotification.length > 0 && <p className={classes.number}>{messageNotification.length}</p>}
+                </div>
             </div>
             <Dialog onClose={handleClose} open={open} style={{ zIndex: '434343665456465' }} PaperProps={{ sx: dialogStyle }}>
                 <Header>

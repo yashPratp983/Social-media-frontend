@@ -93,9 +93,53 @@
     .message{
         padding-right: 15px;
     }
-    .user{
+    .followNotification{
+        position: relative;
         padding-right: 15px;
+        position: relative;
+        .user{
+            
+        }
+        .number{
+            position: absolute;
+            top: 0;
+            right: 6px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            width: 5px;
+            height: 5px;
+            padding: 5px;
+            font-size: 10px;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+        }
+
     }
+    .messageNotification{
+        position: relative;
+        padding-right: 15px;
+        position: relative;
+        .number{
+            position: absolute;
+            top: 0;
+            right: 6px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            width: 5px;
+            height: 5px;
+            padding: 5px;
+            font-size: 10px;
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+        }
+    }
+   
 }
 .profile{
    width: 10%;

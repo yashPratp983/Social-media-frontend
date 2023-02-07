@@ -7,8 +7,10 @@ import axios from 'axios';
 
 const Description = () => {
     const navigate = useNavigate();
+    const [disabled, setDisabled] = useState(false);
     const [description, setDescription] = useState('');
     const submitHandler = async (e) => {
+        setDisabled(true);
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
@@ -19,6 +21,7 @@ const Description = () => {
             console.log(err);
         }
         navigate('/');
+        setDisabled(false);
     }
 
     const changeHandler = (e) => {
@@ -90,7 +93,7 @@ const Description = () => {
                     <Para>What makes you special? Don't think too hard just have fun with it.</Para>
                     <form onSubmit={submitHandler}>
                         <TextField placeholder='Add Description' value={description} maxLength="200" autoFocus onChange={(e) => { setDescription(e.target.value); }} style={{ width: '100%' }}></TextField>
-                        <button type='submit' style={stl}>Next</button>
+                        <button type='submit' style={stl} disabled={disabled}>Next</button>
                     </form>
                 </Component>
             </Dialog>

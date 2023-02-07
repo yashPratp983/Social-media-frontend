@@ -31,6 +31,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
     const auth = useAuth();
+    const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
     const redirectPath = location.state?.path || '/uploadPhoto'
@@ -52,7 +53,9 @@ const Register = () => {
     const formOptions = { resolver: yupResolver(formSchema) }
     const { register, handleSubmit, reset, formState: { errors } } = useForm(formOptions)
     const submitHandler = async (data) => {
+        setDisabled(true)
         const dat = await registerUser(data)
+        setDisabled(false)
         setToastMessage(dat)
         toast.info(`${dat}`, {
             position: "bottom-right",
@@ -108,7 +111,7 @@ const Register = () => {
                         {...register('confirmPwd')}
                     ></input>
                     <p className={classes.error}>{errors.confirmPwd?.message}</p>
-                    <button type="submit" className={classes.button} onClick={() => { if (errors) { console.log(errors) } }}>Sign up</button>
+                    <button type="submit" className={classes.button} onClick={() => { if (errors) { console.log(errors) } }} disabled={disabled}>Sign up</button>
                     <p className={classes.question}>Already have an account? <NavLink to='/login' className={classes.signIn}>Sign in</NavLink></p>
                 </form>
 

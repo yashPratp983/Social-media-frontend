@@ -16,9 +16,11 @@ import { allNotifications } from '../../../App';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
+import { useMessageNotification } from '../../../contexts/messageNotification';
 
 const MobileDrawer = () => {
     const { onlineusers, setOnlineusers } = useOnlineuser()
+    const { messageNotification, setMessageNotification } = useMessageNotification();
     const auth = useAuth();
     const { users, setUsers } = useContext(allUsers)
     const { opendrawer, setOpendrawer } = useOpenDrawer();
@@ -232,11 +234,41 @@ const MobileDrawer = () => {
                         <Typography>Feed</Typography>
                     </Section>
                     <Section onClick={() => { navigate('/chats'); setOpendrawer(false) }}>
-                        <FontAwesomeIcon icon={faMessage} style={{ paddingRight: '20px', width: '20px' }} />
+                        <Box style={{ position: 'relative' }}>
+                            <FontAwesomeIcon icon={faMessage} style={{ paddingRight: '20px', width: '20px' }} />
+                            {messageNotification.length > 0 && <Typography style={{
+                                position: 'absolute',
+                                backgroundColor: 'red',
+                                color: 'white',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                width: '15px',
+                                height: '15px',
+                                fontSize: '12px',
+                                borderRadius: '50%',
+                                top: '5px',
+                                right: '13px'
+                            }}>{messageNotification.length}</Typography>}
+                        </Box>
                         <Typography>Chats</Typography>
                     </Section>
                     <Section onClick={handleClick} >
-                        <FontAwesomeIcon icon={faBell} style={{ paddingRight: '20px', width: '20px' }} />
+                        <Box style={{ position: 'relative' }}>
+                            <FontAwesomeIcon icon={faBell} style={{ paddingRight: '20px', width: '20px' }} />
+                            {notifications.notifications.request > 0 && <Typography style={{
+                                position: 'absolute',
+                                backgroundColor: 'red',
+                                color: 'white',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                width: '15px',
+                                height: '15px',
+                                fontSize: '12px',
+                                borderRadius: '50%',
+                                top: '5px',
+                                right: '13px'
+                            }}>{notifications.notifications.request}</Typography>}
+                        </Box>
                         <Typography>Notifications</Typography>
                     </Section>
                     <Section onClick={() => { navigate(`/profile/${auth.user.user._id}`); setOpendrawer(false) }}>

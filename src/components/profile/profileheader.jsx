@@ -50,9 +50,30 @@ const Background = ({ user, posts, followers, following }) => {
             console.log(unfollow)
             const u = auth.user;
             u.user.following = u.user.following.filter((item) => item !== user._id)
-            auth.setUser(u)
+            u.following = u.following - 1;
+            auth.setUser((u) => ({ ...u, user: u.user, following: u.following }))
             // setUser(u)
             setFollow(!follow)
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    const unrequestHandler = async () => {
+        try {
+            const token = localStorage.getItem('token')
+            const unrequest = await axios.put(`http://localhost:4000/api/v1/notifications/delete/${user._id}`,
+                { headers: { 'authorisation': `Bearer ${token}` } }
+            )
+            console.log(unrequest)
+            const notify = notification.notifications;
+            console.log(notify, "notify")
+            notify.status = notify.status.filter((item) => item !== user._id);
+            console.log(notify, "notify")
+            notification.setNotifications(notify)
+            setNotifications(notify)
+            setRequest(!request)
+            console.log(notification)
         } catch (err) {
             console.log(err)
         }
@@ -74,7 +95,7 @@ const Background = ({ user, posts, followers, following }) => {
                         {(user._id == auth.user.user._id) && <button className={classes.button} onClick={() => { navigate('/editprofile') }}>Edit Profile</button>}
                         {(user._id != auth.user.user._id && !auth.user.user.following.includes(user._id) && !notification.notifications.status.includes(user._id)) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={(() => { followHandler() })}>Follow</div>}
                         {(user._id != auth.user.user._id && auth.user.user.following.includes(user._id)) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => { unfollowHandler() }}>Unfollow</div>}
-                        {((user._id != auth.user.user._id && notification.notifications.status.includes(user._id))) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Requested</div>}
+                        {((user._id != auth.user.user._id && notification.notifications.status.includes(user._id))) && <div className={classes.button} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={unrequestHandler}>Requested</div>}
                     </div>
                 </div>
             </div>

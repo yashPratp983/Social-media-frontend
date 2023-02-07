@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const ForgotPassword = () => {
+    const [disabled, setDisabled] = useState(false);
     const formSchema = Yup.object().shape({
         email: Yup.string()
             .required('Email is mendatory')
@@ -20,9 +21,11 @@ const ForgotPassword = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm(formOptions)
 
     const submitHandler = async (data) => {
+        setDisabled(true);
         try {
             const response = await axios.put('http://localhost:4000/api/v1/user/generateResetToken', data)
             console.log(response)
+            setDisabled(false);
             toast.info(`${response.data.data}`, {
                 position: "bottom-right",
                 autoClose: 5000,
@@ -35,6 +38,7 @@ const ForgotPassword = () => {
             });
         }
         catch (err) {
+            setDisabled(false);
             toast.info(`${err.response.data.error}`, {
                 position: "bottom-right",
                 autoClose: 5000,
@@ -57,7 +61,7 @@ const ForgotPassword = () => {
                     <form className={classes.form} onSubmit={handleSubmit(submitHandler)}>
                         <input placeholder="Email" className={classes.input} {...register("email")}></input>
                         <p className={classes.error}>{errors.email?.message}</p>
-                        <button type="submit" className={classes.button}>Submit</button>
+                        <button type="submit" className={classes.button} disabled={disabled}>Submit</button>
                     </form>
                 </div>
             </div>

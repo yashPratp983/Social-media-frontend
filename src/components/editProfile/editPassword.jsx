@@ -14,6 +14,7 @@ import { useAuth } from '../../auth/auth';
 
 const ChangeDetails = ({ setChange }) => {
     const auth = useAuth();
+    const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate();
     const formSchema = Yup.object().shape({
         oldpassword: Yup.string()
@@ -32,7 +33,7 @@ const ChangeDetails = ({ setChange }) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm(formOptions)
 
     const submitHandler = async (data) => {
-
+        setDisabled(true);
         try {
             const d = {
                 currentPassword: data.oldpassword,
@@ -42,6 +43,7 @@ const ChangeDetails = ({ setChange }) => {
             axios.defaults.headers.common['authorisation'] = `Bearer ${tok}`;
             let dat = await axios.put('http://localhost:4000/api/v1/user/updatePassword', d);
             console.log(dat);
+            setDisabled(false);
             localStorage.setItem('token', dat.data.token);
             toast.info(`Successfully changed password`, {
                 position: "bottom-right",
@@ -56,6 +58,7 @@ const ChangeDetails = ({ setChange }) => {
         }
         catch (err) {
             console.log(err);
+            setDisabled(false);
             toast.info(`${err.response.data.error}`, {
                 position: "bottom-right",
                 autoClose: 5000,
@@ -102,7 +105,7 @@ const ChangeDetails = ({ setChange }) => {
                             </div>
                         </div>
                         <div className={classes.footer}>
-                            <button type='submit' className={classes.button} >Save Changes</button>
+                            <button type='submit' className={classes.button} disabled={disabled}>Save Changes</button>
                             <p className={classes.password} onClick={() => { setChange(2) }}>Change Password</p>
                             <p className={classes.email} onClick={() => { setChange(1) }}>Change Info</p>
                         </div>

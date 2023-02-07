@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../auth/auth';
 import { useParams } from 'react-router';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 const dialogStyle = {
     width: '350px',
@@ -46,7 +47,9 @@ const Following = ({ user, following, setUser }) => {
     const [allFollowing, setAllFollowing] = useState(following);
     const { openfollowingdialog, setOpenfollowingdialog } = useOpenDialog();
     const auth = useAuth();
+    const [rerender, setRerender] = useState(false);
     const { id } = useParams();
+    const navigate = useNavigate();
     useEffect(() => {
         setAllFollowing(following);
     }, [following])
@@ -58,9 +61,15 @@ const Following = ({ user, following, setUser }) => {
                 { headers: { authorisation: `Bearer ${token}` } });
             console.log(res);
             setAllFollowing(allFollowing.filter((following) => following._id != id));
-            const u = user;
-            u.user.following = u.user.following.filter((following) => following._id != id);
-            setUser(u);
+            let u = auth.user;
+            console.log(id, "id")
+            console.log(u, "before change")
+            u.user.following = u.user.following.filter((following) => following !== id);
+            u.following = u.following - 1;
+            console.log(u, "after change")
+            auth.setUser({ ...u, user: u.user, following: u.following });
+            setUser({ ...user, following: user.following - 1 })
+            setRerender(!rerender);
         } catch (err) {
             console.log(err);
         }
@@ -77,7 +86,7 @@ const Following = ({ user, following, setUser }) => {
                     return (
                         <Follower key={follower._id}>
                             <FollowerList>
-                                <Image src={follower.profilePic.url}></Image>
+                                <Image src={follower.profilePic.url} style={{ cursor: 'pointer' }} onClick={() => { navigate(`/profile/${follower._id}`); setOpenfollowingdialog(false) }}></Image>
                                 <Typography>{follower.name}</Typography>
                             </FollowerList>
                             {(auth.user.user._id == id) && (<Box>
