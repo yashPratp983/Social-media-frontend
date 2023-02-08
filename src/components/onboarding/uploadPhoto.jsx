@@ -34,7 +34,7 @@ const uploadPhoto = () => {
                 const formData = new FormData();
                 formData.append('files', file);
                 const token = localStorage.getItem('token')
-                const user = await axios.put('http://localhost:4000/api/v1/user/uploadProfilePic', formData, {
+                const user = await axios.put('https://social-media-api-d16d.onrender.com/api/v1/user/uploadProfilePic', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                         'authorisation': `Bearer ${token}`
