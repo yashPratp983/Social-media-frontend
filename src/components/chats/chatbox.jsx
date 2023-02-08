@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { io } from "socket.io-client";
 import { useMessageNotification } from '../../contexts/messageNotification';
 
-const socket = io("http://localhost:4000");
+const socket = io("https://social-media-api-d16d.onrender.com/");
 
 
 
@@ -42,7 +42,7 @@ const Chatbox = ({ messageReceive }) => {
     const blockHandler = async () => {
         try {
             const token = localStorage.getItem('token');
-            const block = await axios.put(`http://localhost:4000/api/v1/user/blockUser/${selectChat._id}`, {}, {
+            const block = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/user/blockUser/${selectChat._id}`, {}, {
                 headers: {
                     authorisation: `Bearer ${token}`
                 }
@@ -58,7 +58,7 @@ const Chatbox = ({ messageReceive }) => {
     const unblockHandler = async () => {
         try {
             const token = localStorage.getItem('token');
-            const unblock = await axios.put(`http://localhost:4000/api/v1/user/unblockUser/${selectChat._id}`, {}, {
+            const unblock = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/user/unblockUser/${selectChat._id}`, {}, {
                 headers: {
                     authorisation: `Bearer ${token}`
                 }

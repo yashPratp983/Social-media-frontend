@@ -29,7 +29,7 @@ const EmailVerification = () => {
         const getUser = async (tok) => {
             try {
                 axios.defaults.headers.common['authorisation'] = `Bearer ${tok}`;
-                user1 = await axios.get('http://localhost:4000/api/v1/user/')
+                user1 = await axios.get('https://social-media-api-d16d.onrender.com/api/v1/user/')
                 console.log(user1)
                 navigate("/confirmverification");
                 setUser(user1.data.data);
