@@ -14,7 +14,7 @@ const EmailVerification = () => {
         let user1;
         const setToken = async () => {
             try {
-                const data = await axios.get(`http://localhost:4000/api/v1/user/verify/${token}`);
+                const data = await axios.get(`https://social-media-api-d16d.onrender.com/api/v1/user/verify/${token}`);
                 console.log(data)
                 if (data.data.token) {
 

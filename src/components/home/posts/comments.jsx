@@ -17,7 +17,7 @@ const Comments = ({ comments, id, commentsState }) => {
     const submitHandler = async (e) => {
         e.preventDefault()
         try {
-            const res = await axios.put(`http://localhost:4000/api/v1/posts/comment/${id}`, {
+            const res = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/posts/comment/${id}`, {
                 comment: comments1
             }, {
                 headers: {
@@ -35,7 +35,7 @@ const Comments = ({ comments, id, commentsState }) => {
 
     const deleteHandler = async (commentId) => {
         try {
-            const res = await axios.delete(`http://localhost:4000/api/v1/posts/comment/${id}/${commentId}`, {
+            const res = await axios.delete(`https://social-media-api-d16d.onrender.com/api/v1/posts/comment/${id}/${commentId}`, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -51,7 +51,7 @@ const Comments = ({ comments, id, commentsState }) => {
         e.preventDefault()
         const token = localStorage.getItem('token')
         try {
-            const res = await axios.put(`http://localhost:4000/api/v1/posts/comment/${id}/${edit.id}`, {
+            const res = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/posts/comment/${id}/${edit.id}`, {
                 comment: edit.comment
             }, {
                 headers: {

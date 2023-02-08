@@ -31,7 +31,7 @@ const ResetPassword = () => {
     const submitHandler = async (data) => {
         setDisabled(true)
         try {
-            const dat = await axios.post(`http://localhost:4000/api/v1/user/resetPassword/${token}`, data)
+            const dat = await axios.post(`https://social-media-api-d16d.onrender.com/api/v1/user/resetPassword/${token}`, data)
             if (dat.status === 200) {
                 localStorage.setItem('token', dat.data.token)
                 navigate('/')

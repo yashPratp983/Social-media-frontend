@@ -63,7 +63,7 @@ const Followers = ({ user, followers }) => {
     const removeFollower = async (id) => {
         const token = localStorage.getItem("token");
         try {
-            const res = await axios.put(`http://localhost:4000/api/v1/user/block/${id}`, {},
+            const res = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/user/block/${id}`, {},
                 { headers: { authorisation: `Bearer ${token}` } });
             setAllFollowers(allFollowers.filter((following) => following._id !== id));
             let u = auth.user;

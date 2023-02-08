@@ -34,7 +34,7 @@ const SinglePost = ({ post }) => {
         try {
             if (isLiked) {
                 const token = localStorage.getItem('token');
-                const res = await axios.put(`http://localhost:4000/api/v1/posts/unlike/${post.id}`, {}, {
+                const res = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/posts/unlike/${post.id}`, {}, {
                     headers: {
                         authorization: `Bearer ${token}`
                     }
@@ -46,7 +46,7 @@ const SinglePost = ({ post }) => {
             }
             else {
                 const token = localStorage.getItem('token');
-                const res = await axios.put(`http://localhost:4000/api/v1/posts/like/${post.id}`, {}, {
+                const res = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/posts/like/${post.id}`, {}, {
                     headers: {
                         authorization: `Bearer ${token}`
                     }

@@ -51,7 +51,7 @@ const FileUpload = () => {
         const token = localStorage.getItem('token')
 
         try {
-            const post = await axios.post('http://localhost:4000/api/v1/posts/', { title: title, description: description },
+            const post = await axios.post('https://social-media-api-d16d.onrender.com/api/v1/posts/', { title: title, description: description },
                 {
                     headers: {
                         'authorisation': `Bearer ${token}`
@@ -59,7 +59,7 @@ const FileUpload = () => {
                 }
             );
             if (i > 0) {
-                res1 = await axios.post(`http://localhost:4000/api/v1/posts/images/${post.data.data.id}`, formData1, {
+                res1 = await axios.post(`https://social-media-api-d16d.onrender.com/api/v1/posts/images/${post.data.data.id}`, formData1, {
 
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -69,7 +69,7 @@ const FileUpload = () => {
                 })
             }
             if (v > 0) {
-                res2 = await axios.post(`http://localhost:4000/api/v1/posts/videos/${post.data.data.id}`, formData2, {
+                res2 = await axios.post(`https://social-media-api-d16d.onrender.com/api/v1/posts/videos/${post.data.data.id}`, formData2, {
 
                     headers: {
                         'Content-Type': 'multipart/form-data',

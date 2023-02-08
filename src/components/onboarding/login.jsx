@@ -38,7 +38,7 @@ const Login = () => {
             console.log(token)
             if (token) {
                 axios.defaults.headers.common['authorisation'] = `Bearer ${token}`;
-                user1 = await axios.get('http://localhost:4000/api/v1/user')
+                user1 = await axios.get('https://social-media-api-d16d.onrender.com/api/v1/user')
                 // console.log(user1)
                 if (user1.data.data.user) {
                     auth.setUser(user1.data.data);
@@ -56,7 +56,7 @@ const Login = () => {
         setDisabled(true);
         console.log(data);
         try {
-            let tok = await axios.post('http://localhost:4000/api/v1/user/login', data);
+            let tok = await axios.post('https://social-media-api-d16d.onrender.com/api/v1/user/login', data);
 
             console.log(tok.data.token);
             localStorage.setItem('token', tok.data.token);

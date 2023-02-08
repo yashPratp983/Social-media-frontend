@@ -15,7 +15,7 @@ const Description = () => {
         try {
             const token = localStorage.getItem('token');
             axios.defaults.headers.common['authorisation'] = `Bearer ${token}`;
-            await axios.put('http://localhost:4000/api/v1/user/addBio', { bio: description })
+            await axios.put('https://social-media-api-d16d.onrender.com/api/v1/user/addBio', { bio: description })
         }
         catch (err) {
             console.log(err);

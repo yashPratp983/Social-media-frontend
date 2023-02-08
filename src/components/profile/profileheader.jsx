@@ -25,7 +25,7 @@ const Background = ({ user, posts, followers, following }) => {
     const followHandler = async () => {
         try {
             const token = localStorage.getItem('token')
-            const notificatio = await axios.post(`http://localhost:4000/api/v1/notifications`, { user: user._id },
+            const notificatio = await axios.post(`https://social-media-api-d16d.onrender.com/api/v1/notifications`, { user: user._id },
                 { headers: { 'authorisation': `Bearer ${token}` } }
             )
             const notify = notification.notifications;
@@ -44,7 +44,7 @@ const Background = ({ user, posts, followers, following }) => {
     const unfollowHandler = async () => {
         try {
             const token = localStorage.getItem('token')
-            const unfollow = await axios.put(`http://localhost:4000/api/v1/user/unfollow/${user._id}`,
+            const unfollow = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/user/unfollow/${user._id}`,
                 { headers: { 'authorisation': `Bearer ${token}` } }
             )
             console.log(unfollow)
@@ -62,7 +62,7 @@ const Background = ({ user, posts, followers, following }) => {
     const unrequestHandler = async () => {
         try {
             const token = localStorage.getItem('token')
-            const unrequest = await axios.put(`http://localhost:4000/api/v1/notifications/delete/${user._id}`,
+            const unrequest = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/notifications/delete/${user._id}`,
                 { headers: { 'authorisation': `Bearer ${token}` } }
             )
             console.log(unrequest)

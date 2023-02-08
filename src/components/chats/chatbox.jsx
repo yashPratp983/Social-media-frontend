@@ -78,7 +78,7 @@ const Chatbox = ({ messageReceive }) => {
                 setMessages([...messages, { message: messageReceive.text, sender: messageReceive.senderId }])
                 try {
                     const token = localStorage.getItem('token');
-                    const del = axios.delete(`http://localhost:4000/api/v1/messageNotification/${selectChat._id}`, {
+                    const del = axios.delete(`https://social-media-api-d16d.onrender.com/api/v1/messageNotification/${selectChat._id}`, {
                         headers: {
                             authorisation: `Bearer ${token}`
                         }
@@ -100,7 +100,7 @@ const Chatbox = ({ messageReceive }) => {
     const getMessages = async (id) => {
         const token = localStorage.getItem('token');
         try {
-            const mess = await axios.get(`http://localhost:4000/api/v1/messages/${id}`, {
+            const mess = await axios.get(`https://social-media-api-d16d.onrender.com/api/v1/messages/${id}`, {
                 headers: {
                     authorisation: `Bearer ${token}`
                 }
@@ -116,7 +116,7 @@ const Chatbox = ({ messageReceive }) => {
     const selectChatHandler = (id) => {
         const token = localStorage.getItem('token');
         try {
-            const del = axios.delete(`http://localhost:4000/api/v1/messageNotification/${id}`, {
+            const del = axios.delete(`https://social-media-api-d16d.onrender.com/api/v1/messageNotification/${id}`, {
                 headers: {
                     authorisation: `Bearer ${token}`
                 }
@@ -136,7 +136,7 @@ const Chatbox = ({ messageReceive }) => {
         if (!disabled && messageInput !== '') {
             setDisabled(true)
             try {
-                const mess = await axios.post(`http://localhost:4000/api/v1/messages/${selectChat._id}`, data, {
+                const mess = await axios.post(`https://social-media-api-d16d.onrender.com/api/v1/messages/${selectChat._id}`, data, {
                     headers: {
                         authorisation: `Bearer ${token}`
                     }
@@ -174,7 +174,7 @@ const Chatbox = ({ messageReceive }) => {
     const deleteChat = async (id) => {
         const token = localStorage.getItem('token');
         try {
-            const mess = await axios.delete(`http://localhost:4000/api/v1/messages/delete/${id}`, {
+            const mess = await axios.delete(`https://social-media-api-d16d.onrender.com/api/v1/messages/delete/${id}`, {
                 headers: {
                     authorisation: `Bearer ${token}`
                 }

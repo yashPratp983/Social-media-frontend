@@ -47,7 +47,7 @@ const Header = () => {
     const handleClick1 = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const accept = await axios.put(`http://localhost:4000/api/v1/notifications/accept/${id}`, {
+            const accept = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/notifications/accept/${id}`, {
                 headers: {
                     authorisation: `Bearer ${token}`
                 }
@@ -70,7 +70,7 @@ const Header = () => {
     const handleClick2 = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const accept = await axios.put(`http://localhost:4000/api/v1/notifications/reject/${id}`, {
+            const accept = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/notifications/reject/${id}`, {
                 headers: {
                     authorisation: `Bearer ${token}`
                 }

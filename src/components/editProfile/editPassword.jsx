@@ -41,7 +41,7 @@ const ChangeDetails = ({ setChange }) => {
             }
             const tok = localStorage.getItem('token');
             axios.defaults.headers.common['authorisation'] = `Bearer ${tok}`;
-            let dat = await axios.put('http://localhost:4000/api/v1/user/updatePassword', d);
+            let dat = await axios.put('https://social-media-api-d16d.onrender.com/api/v1/user/updatePassword', d);
             console.log(dat);
             setDisabled(false);
             localStorage.setItem('token', dat.data.token);

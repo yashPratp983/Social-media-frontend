@@ -34,7 +34,7 @@ const SinglePost = ({ post, postState }) => {
     const deleteHandler = async (id) => {
         const token = localStorage.getItem('token');
         try {
-            const res = await axios.delete(`http://localhost:4000/api/v1/posts/${id}`, {
+            const res = await axios.delete(`https://social-media-api-d16d.onrender.com/api/v1/posts/${id}`, {
                 headers: {
                     authorisation: `Bearer ${token}`
                 }
@@ -50,7 +50,7 @@ const SinglePost = ({ post, postState }) => {
         try {
             if (isLiked) {
                 const token = localStorage.getItem('token');
-                const res = await axios.put(`http://localhost:4000/api/v1/posts/unlike/${post.id}`, {}, {
+                const res = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/posts/unlike/${post.id}`, {}, {
                     headers: {
                         authorization: `Bearer ${token}`
                     }
@@ -62,7 +62,7 @@ const SinglePost = ({ post, postState }) => {
             }
             else {
                 const token = localStorage.getItem('token');
-                const res = await axios.put(`http://localhost:4000/api/v1/posts/like/${post.id}`, {}, {
+                const res = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/posts/like/${post.id}`, {}, {
                     headers: {
                         authorization: `Bearer ${token}`
                     }

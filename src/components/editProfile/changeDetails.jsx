@@ -40,7 +40,7 @@ const ChangeDetails = ({ setChange }) => {
             data.name = auth.user.name;
         }
         try {
-            let dat = await axios.put('http://localhost:4000/api/v1/user/update', data);
+            let dat = await axios.put('https://social-media-api-d16d.onrender.com/api/v1/user/update', data);
             setDisabled(false);
             console.log(dat);
             const user = auth.user;

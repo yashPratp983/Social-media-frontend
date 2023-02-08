@@ -33,7 +33,7 @@ const Profile = () => {
         const getDetails = async () => {
             let user1, posts1;
             try {
-                user1 = await axios.get(`http://localhost:4000/api/v1/user/getProfile/${id}`, {
+                user1 = await axios.get(`https://social-media-api-d16d.onrender.com/api/v1/user/getProfile/${id}`, {
                     headers: {
                         authorisation: `Bearer ${token}`
                     }
@@ -41,7 +41,7 @@ const Profile = () => {
                 })
                 setUser(user1.data.data);
                 console.log(user1)
-                posts1 = await axios.get(`http://localhost:4000/api/v1/all_posts/profile/${id}`, {
+                posts1 = await axios.get(`https://social-media-api-d16d.onrender.com/api/v1/all_posts/profile/${id}`, {
                     headers: {
                         authorisation: `Bearer ${token}`
                     }
@@ -61,7 +61,7 @@ const Profile = () => {
 
 
             try {
-                let follows = await axios.get(`http://localhost:4000/api/v1/user/getFollows/${id}`, {
+                let follows = await axios.get(`https://social-media-api-d16d.onrender.com/api/v1/user/getFollows/${id}`, {
                     headers: {
                         authorisation: `Bearer ${token}`
                     }

@@ -34,7 +34,7 @@ import { useMessageNotification } from './contexts/messageNotification'
 
 export const allUsers = createContext()
 export const allNotifications = createContext()
-const socket = io("http://localhost:4000");
+const socket = io("https://social-media-api-d16d.onrender.com/");
 
 function App() {
   const { messageNotification, setMessageNotification } = useMessageNotification()
@@ -52,7 +52,7 @@ function App() {
         const token = (localStorage.getItem('token'));
         if (token) {
           axios.defaults.headers.common['authorisation'] = `Bearer ${token}`;
-          const user1 = await axios.get('http://localhost:4000/api/v1/user/')
+          const user1 = await axios.get('https://social-media-api-d16d.onrender.com/api/v1/user')
 
           console.log(user1)
           if (user1.data.data.user) {
@@ -80,7 +80,7 @@ function App() {
         const token = (localStorage.getItem('token'));
         if (token) {
           axios.defaults.headers.common['authorisation'] = `Bearer ${token}`;
-          const notificationOfMessages = await axios.get('http://localhost:4000/api/v1/messageNotification')
+          const notificationOfMessages = await axios.get('https://social-media-api-d16d.onrender.com/api/v1/messageNotification')
           console.log(notificationOfMessages.data.data)
           setMessageNotification(notificationOfMessages.data.data)
         }
@@ -99,7 +99,7 @@ function App() {
         const token = (localStorage.getItem('token'));
         if (token) {
           axios.defaults.headers.common['authorisation'] = `Bearer ${token}`;
-          const notification = await axios.get('http://localhost:4000/api/v1/notifications')
+          const notification = await axios.get('https://social-media-api-d16d.onrender.com/api/v1/notifications')
           console.log(notification.data.data)
           setNotifications(notification.data.data)
         }
@@ -116,7 +116,7 @@ function App() {
         const token = (localStorage.getItem('token'));
         if (token) {
           axios.defaults.headers.common['authorisation'] = `Bearer ${token}`;
-          const users = await axios.get('http://localhost:4000/api/v1/user/getAllUsers')
+          const users = await axios.get('https://social-media-api-d16d.onrender.com/api/v1/user/getAllUsers')
           console.log(users.data.data, "users")
           setUsers(users.data.data)
         }

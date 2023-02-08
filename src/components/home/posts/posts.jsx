@@ -11,7 +11,7 @@ const Posts = () => {
     useEffect(() => {
         const getPosts = async () => {
             try {
-                const posts1 = await axios.get('http://localhost:4000/api/v1/all_posts/every', {
+                const posts1 = await axios.get('https://social-media-api-d16d.onrender.com/api/v1/all_posts/every', {
                     headers: {
                         'Content-Type': 'application/json',
                         'authorisation': `Bearer ${token}`

@@ -23,7 +23,7 @@ const ForgotPassword = () => {
     const submitHandler = async (data) => {
         setDisabled(true);
         try {
-            const response = await axios.put('http://localhost:4000/api/v1/user/generateResetToken', data)
+            const response = await axios.put('https://social-media-api-d16d.onrender.com/api/v1/user/generateResetToken', data)
             console.log(response)
             setDisabled(false);
             toast.info(`${response.data.data}`, {
