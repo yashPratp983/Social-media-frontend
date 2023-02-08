@@ -4,7 +4,7 @@ import { faHeart, faCircleArrowLeft, faCircleArrowRight, faTrash } from "@fortaw
 import { useState } from "react";
 import Comments from "./comments";
 import { useNavigate } from "react-router";
-import Posts from "./posts";
+
 import { useAuth } from "../../auth/auth";
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
