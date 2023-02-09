@@ -7,10 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import './uploadPhoto.scss'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../../auth/auth';
 
 const uploadPhoto = () => {
 
-
+    const auth = useAuth();
     const navigate = useNavigate();
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
@@ -42,6 +43,9 @@ const uploadPhoto = () => {
                         'authorisation': `Bearer ${token}`
                     }
                 })
+                const u = auth.user;
+                u.user = user.data.data.user;
+                auth.setUser(u);
                 console.log(user)
                 navigate('/description')
                 setDisabled(false)

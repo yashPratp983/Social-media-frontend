@@ -51,10 +51,11 @@ const ChangeDetails = ({ setChange }) => {
             setDisabled(false);
             setLoading(false);
             console.log(dat);
-            const user = auth.user;
-            user.user = dat.data.data;
-            auth.setUser(user);
+
             if (dat.data.data === "Email sent") {
+                const user = auth.user;
+                user.user = dat.data.user;
+                auth.setUser(user);
                 toast.info("Please verify your email", {
                     position: "bottom-right",
                     autoClose: 5000,
@@ -67,6 +68,9 @@ const ChangeDetails = ({ setChange }) => {
                 });
             }
             else {
+                const user = auth.user;
+                user.user = dat.data.data;
+                auth.setUser(user);
                 toast.info("Successfully saved changes", {
                     position: "bottom-right",
                     autoClose: 5000,
