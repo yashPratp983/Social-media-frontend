@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import classes from './FileUplod.module.scss'
 import { faHeart, faCircleArrowLeft, faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
-import Header from '../profile/header'
+import Header from '../home/header'
 import LeftBar from '../home/left-bar'
 import MobileDrawer from '../profile/profileDrawer'
 import { useOpenDrawer } from '../../contexts/open-drawer'
@@ -128,7 +128,8 @@ const FileUpload = () => {
         // console.log(files.length)
         // console.log(e.target.files[0])
         setShow(f.length)
-
+        setIndex(1);
+        setIndex(0)
     }
 
     const leftHandler = () => {

@@ -107,6 +107,20 @@
     background-color: 	#A8A8A8;
 
 }
+.button1{
+text-align: center;
+width: 100px;
+height:35px;
+font-size: 12px;
+border-radius: 5px;
+color:white;
+background-color: grey;
+display: flex;
+justify-content: center;
+align-items: center;
+border:none;
+cursor: pointer;
+}
 
 .password{
     margin-left: 20px;

@@ -9,8 +9,10 @@ const Description = () => {
     const navigate = useNavigate();
     const [disabled, setDisabled] = useState(false);
     const [description, setDescription] = useState('');
+    const [loading, setLoading] = useState(false);
     const submitHandler = async (e) => {
         setDisabled(true);
+        setLoading(true);
         e.preventDefault();
         try {
             const token = localStorage.getItem('token');
@@ -22,6 +24,7 @@ const Description = () => {
         }
         navigate('/');
         setDisabled(false);
+        setLoading(false);
     }
 
     const changeHandler = (e) => {
@@ -79,7 +82,28 @@ const Description = () => {
         marginRight: 'auto',
         textAlign: 'center',
         "&:hover": {
-            background: '#00FFFF'
+            backgroundColor: '#00FFFF'
+        }
+    }
+
+    const stl1 = {
+
+        height: '45px',
+        backgroundColor: 'grey',
+        color: 'white',
+        border: 'none',
+        borderRadius: '8px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: '19px',
+        width: '100%',
+        margin: '2% auto',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        textAlign: 'center',
+        "&:hover": {
+            backgroundColor: '#00FFFF'
         }
     }
 
@@ -93,7 +117,8 @@ const Description = () => {
                     <Para>What makes you special? Don't think too hard just have fun with it.</Para>
                     <form onSubmit={submitHandler}>
                         <TextField placeholder='Add Description' value={description} maxLength="200" autoFocus onChange={(e) => { setDescription(e.target.value); }} style={{ width: '100%' }}></TextField>
-                        <button type='submit' style={stl} disabled={disabled}>Next</button>
+                        {!loading && <button type='submit' style={stl} disabled={disabled}>Next</button>}
+                        {loading && <div style={stl1} >Loading...</div>}
                     </form>
                 </Component>
             </Dialog>

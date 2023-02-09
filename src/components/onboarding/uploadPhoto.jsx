@@ -16,6 +16,7 @@ const uploadPhoto = () => {
     const [preview, setPreview] = useState(null);
     const [error, setError] = useState(null);
     const [disabled, setDisabled] = useState(false);
+    const [loading, setLoading] = useState(false)
     const types = ['image/png', 'image/jpeg'];
     const handleChange = (e) => {
         let selected = e.target.files[0];
@@ -29,6 +30,7 @@ const uploadPhoto = () => {
     };
     const submitHandler = async () => {
         setDisabled(true)
+        setLoading(true)
         if (file) {
             try {
                 const formData = new FormData();
@@ -43,9 +45,11 @@ const uploadPhoto = () => {
                 console.log(user)
                 navigate('/description')
                 setDisabled(false)
+                setLoading(false)
             }
             catch (err) {
                 setDisabled(false)
+                setLoading(false)
                 console.log(err)
             }
         } else {
@@ -93,8 +97,9 @@ const uploadPhoto = () => {
 
                 </div>
                 <div className='buttoms'>
-                    <button className='buttom' type='button' onClick={() => { navigate('/description') }} >Skip</button>
-                    <button className='buttom2' type='button' onClick={submitHandler} disabled={disabled}>Next</button>
+                    {!loading && <button className='buttom' type='button' onClick={() => { navigate('/description') }} >Skip</button>}
+                    {!loading && <button className='buttom2' type='button' onClick={submitHandler} disabled={disabled}>Next</button>}
+                    {loading && <div className="spin1" />}
                 </div>
                 {error && <div className="error">{error}</div>}
             </div>

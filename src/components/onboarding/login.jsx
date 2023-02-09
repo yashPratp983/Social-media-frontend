@@ -15,6 +15,7 @@ const Login = () => {
     const [disabled, setDisabled] = useState(false);
     const auth = useAuth();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false)
 
     const formSchema = Yup.object().shape({
         email: Yup.string()
@@ -54,6 +55,7 @@ const Login = () => {
 
     const submitHandler = async (data) => {
         setDisabled(true);
+        setLoading(true);
         console.log(data);
         try {
             let tok = await axios.post('https://social-media-api-d16d.onrender.com/api/v1/user/login', data);
@@ -62,10 +64,12 @@ const Login = () => {
             localStorage.setItem('token', tok.data.token);
             getUser();
             setDisabled(false);
+            setLoading(false);
 
         } catch (err) {
             console.log(err.response.data.error)
             setDisabled(false);
+            setLoading(false);
             toast.info(`${err.response.data.error}`, {
                 position: "bottom-right",
                 autoClose: 5000,
@@ -89,9 +93,9 @@ const Login = () => {
                     <input placeholder="Password" type="password" className={classes.input} {...register('password')}></input>
                     <p className={classes.error}>{errors.password?.message}</p>
                     <p className={classes.forgotpassword} onClick={() => { navigate('/forgotpassword') }}>Forgot Password?</p>
-                    <button type="submit" className={classes.button} disabled={disabled}>Sign in</button>
-                    <p className={classes.question}>Don't have an account?</p>
-                    <NavLink to="/register" className={classes.register}><button className={classes.registerButton}>Sign up</button></NavLink>
+                    {!loading && <button type="submit" className={classes.button} disabled={disabled}>Sign in</button>}
+                    {loading && <div type="submit" className={classes.button1} >Loading...</div>}
+                    <p className={classes.question}>Don't have an account? <NavLink to='/register' className={classes.signIn}>Sign up</NavLink></p>
                 </form>
             </div>
             <ToastContainer

@@ -36,6 +36,7 @@ const Register = () => {
     const location = useLocation();
     const redirectPath = location.state?.path || '/uploadPhoto'
     const [toastMessage, setToastMessage] = useState('')
+    const [loading, setLoading] = useState(false)
     const formSchema = Yup.object().shape({
         name: Yup.string()
             .required('Name is mendatory'),
@@ -54,8 +55,10 @@ const Register = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm(formOptions)
     const submitHandler = async (data) => {
         setDisabled(true)
+        setLoading(true)
         const dat = await registerUser(data)
         setDisabled(false)
+        setLoading(false)
         setToastMessage(dat)
         toast.info(`${dat}`, {
             position: "bottom-right",
@@ -105,13 +108,14 @@ const Register = () => {
                         {...register('password')}
                     ></input>
                     <p className={classes.error}>{errors.password?.message}</p>
-                    <input placeholder="Confirm Password" className={classes.input}
+                    <input placeholder="Confirm Password" className={classes.input2}
                         name="confirmPwd"
                         type="password"
                         {...register('confirmPwd')}
                     ></input>
                     <p className={classes.error}>{errors.confirmPwd?.message}</p>
-                    <button type="submit" className={classes.button} onClick={() => { if (errors) { console.log(errors) } }} disabled={disabled}>Sign up</button>
+                    {loading && <div type="submit" className={classes.button1} >Loading...</div>}
+                    {!loading && <button type="submit" className={classes.button} onClick={() => { if (errors) { console.log(errors) } }} disabled={disabled}>Sign up</button>}
                     <p className={classes.question}>Already have an account? <NavLink to='/login' className={classes.signIn}>Sign in</NavLink></p>
                 </form>
 

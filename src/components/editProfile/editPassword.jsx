@@ -14,6 +14,7 @@ import { useAuth } from '../../auth/auth';
 
 const ChangeDetails = ({ setChange }) => {
     const auth = useAuth();
+    const [loading, setLoading] = useState(false);
     const [disabled, setDisabled] = useState(false);
     const navigate = useNavigate();
     const formSchema = Yup.object().shape({
@@ -34,6 +35,7 @@ const ChangeDetails = ({ setChange }) => {
 
     const submitHandler = async (data) => {
         setDisabled(true);
+        setLoading(true);
         try {
             const d = {
                 currentPassword: data.oldpassword,
@@ -44,6 +46,7 @@ const ChangeDetails = ({ setChange }) => {
             let dat = await axios.put('https://social-media-api-d16d.onrender.com/api/v1/user/updatePassword', d);
             console.log(dat);
             setDisabled(false);
+            setLoading(false);
             localStorage.setItem('token', dat.data.token);
             toast.info(`Successfully changed password`, {
                 position: "bottom-right",
@@ -59,6 +62,7 @@ const ChangeDetails = ({ setChange }) => {
         catch (err) {
             console.log(err);
             setDisabled(false);
+            setLoading(false);
             toast.info(`${err.response.data.error}`, {
                 position: "bottom-right",
                 autoClose: 5000,
@@ -105,7 +109,8 @@ const ChangeDetails = ({ setChange }) => {
                             </div>
                         </div>
                         <div className={classes.footer}>
-                            <button type='submit' className={classes.button} disabled={disabled}>Save Changes</button>
+                            {!loading && <button type='submit' className={classes.button} disabled={disabled}>Save Changes</button>}
+                            {loading && <div className={classes.button1} disabled={disabled} >Loading...</div>}
                             <p className={classes.password} onClick={() => { setChange(2) }}>Change Password</p>
                             <p className={classes.email} onClick={() => { setChange(1) }}>Change Info</p>
                         </div>

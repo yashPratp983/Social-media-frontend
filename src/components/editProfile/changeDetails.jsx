@@ -14,6 +14,7 @@ const ChangeDetails = ({ setChange }) => {
     const auth = useAuth();
     const navigate = useNavigate();
     const [disabled, setDisabled] = useState(false);
+    const [loading, setLoading] = useState(false);
     const formSchema = Yup.object().shape({
         email: Yup.string()
             .email('Email is invalid')
@@ -30,6 +31,12 @@ const ChangeDetails = ({ setChange }) => {
 
     const submitHandler = async (data) => {
         setDisabled(true);
+        setLoading(true);
+        if (data.email === '' && data.bio === '' && data.name === '') {
+            setDisabled(false);
+            setLoading(false);
+            return;
+        }
         if (data.email === '') {
             data.email = auth.user.email;
         }
@@ -42,6 +49,7 @@ const ChangeDetails = ({ setChange }) => {
         try {
             let dat = await axios.put('https://social-media-api-d16d.onrender.com/api/v1/user/update', data);
             setDisabled(false);
+            setLoading(false);
             console.log(dat);
             const user = auth.user;
             user.user = dat.data.data;
@@ -75,6 +83,7 @@ const ChangeDetails = ({ setChange }) => {
         } catch (err) {
             console.log(err)
             setDisabled(false);
+            setLoading(false);
             toast.info(`${err.response.data.error}`, {
                 position: "bottom-right",
                 autoClose: 5000,
@@ -119,7 +128,8 @@ const ChangeDetails = ({ setChange }) => {
                             </div>
                         </div>
                         <div className={classes.footer}>
-                            <button type='submit' className={classes.button} disabled={disabled} >Save Changes</button>
+                            {!loading && <button type='submit' className={classes.button} disabled={disabled} >Save Changes</button>}
+                            {loading && <div className={classes.button1} disabled={disabled} >Loading...</div>}
                             <p className={classes.password} onClick={() => { setChange(2) }}>Change Password</p>
                             <p className={classes.email} onClick={() => { setChange(1) }}>Change info</p>
                         </div>

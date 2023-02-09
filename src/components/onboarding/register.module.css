@@ -7,14 +7,15 @@
     
     width : 27%;
     background-color: white;
-    max-height: 40rem;
+    
     justify-content: center;
     min-width: 300px;
-   
+   position: relative;
     border-radius: 8px;
     margin:0% auto;
-    margin-top: 4%;
-    padding-top: 2%;
+    margin-top: 50px;
+    padding: 10px;
+    padding-top: 20px;
 }
 
 .input{
@@ -31,14 +32,45 @@
     border: solid 3px #00FFFF;
 }
 
+.input2{
+    margin:0% 2%;
+    margin-bottom: 30px;
+    padding: 0% 2%;
+    height:38px;
+    border-radius: 4px;
+    border: solid 1px black;
+}
+
+.input2:focus{
+    outline: none;
+    border: solid 3px #00FFFF;
+}
+
 .button{
     margin:2%;
+    margin-top: 0px;
+    margin-bottom: 0%;
     height:45px;
     background-color: #0CAFFF;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
+    font-size: 19px;
+}
+
+.button1{
+    margin:2%;
+    margin-top: 0px;
+    margin-bottom: 0%;
+    height:45px;
+    background-color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    border: none;
+    border-radius: 8px;
     font-size: 19px;
 }
 
@@ -52,6 +84,7 @@
 .heading{
     padding: 2% 0%;
     margin: 0%;
+    margin-bottom: 0px;
     text-align: center;
     font-weight: bold;
     font-size: 50px;
@@ -63,7 +96,7 @@
 
 .question{
     text-align: center;
-    margin-top: 5%;
+    margin-top: 30px;
     font-size: 20px;
     color: black;
 }
@@ -89,3 +122,33 @@ font-size: 12px;
 margin-top: 0%;
 margin-left: 2%;
 }
+
+@keyframes spinner {
+    0% {
+      transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    }
+    100% {
+      transform: translate3d(-50%, -50%, 0) rotate(360deg);
+    }
+  }
+      
+      .spin::before {
+        animation: 1.5s linear infinite spinner;
+        animation-play-state: inherit;
+        border: solid 5px #cfd0d1;
+        border-bottom-color: #1c87c9;
+        border-radius: 50%;
+        content: "";
+        position: absolute;
+        height: 20px;
+        width: 20px;
+       margin-bottom: 20px;
+       
+        left:50%;
+        top:295px;
+        z-index: 0 !important;
+        margin-bottom: 20px;
+        /* width: 100px; Need a specific value to work */
+        transform: translate3d(-50%, -50%, 0);
+        will-change: transform;
+      }
