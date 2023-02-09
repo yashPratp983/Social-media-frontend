@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faCirclePlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faCirclePlus, faXmark } from '@fortawesome/free-solid-svg-icons'
 import './FileUpload.scss'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
@@ -154,6 +154,20 @@ const FileUpload = () => {
         setIndex(index + 1);
     }
 
+    const removeHandler = () => {
+        const f = files;
+        setShow(f.length - 1);
+        f.splice(index, 1);
+        setFiles(f);
+        const s = src;
+        s.splice(index, 1);
+        setSrc(s);
+
+
+        setIndex(index - 1);
+
+    }
+
     useEffect(() => {
         if (!file) return;
 
@@ -198,6 +212,7 @@ const FileUpload = () => {
 
                     </div>) : (
                         <div className={classes.SinglePost} style={{ overflowX: 'none', overflowY: 'none' }}>
+                            <FontAwesomeIcon icon={faXmark} onClick={removeHandler} style={{ marginLeft: '95%', cursor: 'pointer' }} />
                             <div className={classes.image}>
                                 {(Object(files[index]).type == 'image/jpeg' || Object(files[index]).type == 'image/png') && <img src={src[index]} style={{ width: '100%', height: '300px' }}></img>}
                                 {(Object(files[index]).type == 'video/mp4' || Object(files[index]).type == 'video/ogg') && <video style={{ width: '100%', height: '300px' }} controls><source src={src[index]} type={Object(files[index]).type}></source></video>}
