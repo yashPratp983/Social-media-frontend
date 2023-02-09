@@ -9,6 +9,7 @@ import { useAuth } from "../../../auth/auth";
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import axios from "axios";
+import moment from "moment";
 
 const SinglePost = ({ post }) => {
     const navigate = useNavigate();
@@ -21,15 +22,12 @@ const SinglePost = ({ post }) => {
     const [time, setTime] = useState();
 
     useEffect(() => {
-        const date = new Date(Object(post).createdAt);
-        console.log(date.toDateString, "date")
-        // const d1 = new Date.getTime();
-        // const d2 = Object(post).createdAt.getTime();
+        const date = new Date(post.created_at.split("T")[0]);
+        console.log(Date.now() - date);
+        setTime(post.created_at.split("T")[0]);
 
-        // setTime(d1 - d2);
     }, [post])
-    // console.log(Object(post.photos[0]).url)
-    // console.log(Object(post).likes[0], "posts")
+
     const [address, setAddress] = useState(Object(post.photos[0]).url);
     let add = post.photos;
     let addVideo = post.videos;
@@ -77,7 +75,7 @@ const SinglePost = ({ post }) => {
             <div className={classes.upper}>
                 <img src={post.user.profilePic.url} className={classes.profile} onClick={() => { navigate(`/profile/${post.user._id}`) }}></img>
                 <p style={{ paddingRight: '20px' }}>{post.user.name}</p>
-                <p>{post.created_at}</p>
+                <p>{moment(post.created_at).fromNow()}</p>
             </div>
             <div>
                 <h2 style={{ fontSize: '25px' }}>{post.title}</h2>

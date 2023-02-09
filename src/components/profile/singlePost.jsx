@@ -1,13 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classes from "./singlePost.module.css";
 import { faHeart, faCircleArrowLeft, faCircleArrowRight, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Comments from "./comments";
 import { useNavigate } from "react-router";
 import { useAuth } from "../../auth/auth";
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import axios from "axios";
+import moment from "moment";
 
 const SinglePost = ({ post, postState }) => {
     const navigate = useNavigate();
@@ -17,6 +18,13 @@ const SinglePost = ({ post, postState }) => {
     const [src, setSrc] = useState(0);
     const [isLiked, setIsLiked] = useState(post.likedUser[0].includes(auth.user.user._id));
     const [likes, setLikes] = useState(Object(post).likes[0]);
+    const [time, setTime] = useState();
+    useEffect(() => {
+        const date = new Date(post.created_at.split("T")[0]);
+        console.log(Date.now() - date);
+        setTime(post.created_at.split("T")[0]);
+
+    }, [post])
     // console.log(Object(post.photos[0]).url)
     // console.log(Object(post).likes[0], "posts")
     console.log(post, "postblah")
@@ -84,7 +92,7 @@ const SinglePost = ({ post, postState }) => {
                     <div className={classes.userDetails}>
                         <img src={post.user.profilePic.url} className={classes.profile} onClick={() => { navigate(`/profile/${post.user._id}`) }}></img>
                         <p style={{ paddingRight: '20px' }}>{post.user.name}</p>
-                        <p>{post.created_at}</p>
+                        <p>{moment(post.created_at).fromNow()}</p>
                     </div>
                     <div>
                         <FontAwesomeIcon icon={faTrash} className={classes.trash} onClick={() => { navigate(`/profile/${post.user._id}`); deleteHandler(post.id) }} />

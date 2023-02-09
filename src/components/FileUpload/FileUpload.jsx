@@ -25,7 +25,7 @@ const FileUpload = () => {
     const [load, setLoad] = useState(false)
     const [description, setDescription] = useState('');
     const [rerender, setRerender] = useState(false)
-    console.log(Object(files[0]).type)
+    console.log(Object(files[0]).type, src)
 
     const uploadPostHandler = async () => {
         setLoad(true)
@@ -168,7 +168,7 @@ const FileUpload = () => {
             setRerender(!rerender)
         };
         reader.readAsDataURL(file);
-    }, [file]);
+    }, [file, files, src]);
 
     return (
         <>
