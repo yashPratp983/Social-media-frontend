@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import classes from "./singlePost.module.css";
 import { faHeart, faCircleArrowLeft, faCircleArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Comments from "./comments";
 import { useNavigate } from "react-router";
 import Posts from "./posts";
@@ -18,6 +18,16 @@ const SinglePost = ({ post }) => {
     const [src, setSrc] = useState(0);
     const [isLiked, setIsLiked] = useState(post.likedUser[0].includes(auth.user.user._id));
     const [likes, setLikes] = useState(Object(post).likes[0]);
+    const [time, setTime] = useState();
+
+    useEffect(() => {
+        const date = new Date(Object(post).createdAt);
+        console.log(date.toDateString, "date")
+        // const d1 = new Date.getTime();
+        // const d2 = Object(post).createdAt.getTime();
+
+        // setTime(d1 - d2);
+    }, [post])
     // console.log(Object(post.photos[0]).url)
     // console.log(Object(post).likes[0], "posts")
     const [address, setAddress] = useState(Object(post.photos[0]).url);

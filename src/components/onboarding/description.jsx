@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { Dialog, Box, Typography, List, ListItem, styled, TextField } from '@mui/material';
 import { border, borderRadius, margin, textAlign } from '@mui/system';
 import axios from 'axios';
+import { useAuth } from '../../auth/auth';
 
 const Description = () => {
     const navigate = useNavigate();
     const [disabled, setDisabled] = useState(false);
     const [description, setDescription] = useState('');
     const [loading, setLoading] = useState(false);
+    const auth = useAuth();
     const submitHandler = async (e) => {
         setDisabled(true);
         setLoading(true);
@@ -18,6 +20,7 @@ const Description = () => {
             const token = localStorage.getItem('token');
             axios.defaults.headers.common['authorisation'] = `Bearer ${token}`;
             await axios.put('https://social-media-api-d16d.onrender.com/api/v1/user/addBio', { bio: description })
+            auth.setUser({ ...auth.user, user: { ...auth.user.user, bio: description } });
         }
         catch (err) {
             console.log(err);

@@ -85,7 +85,7 @@ const LeftBar = () => {
             sx: leftBar, elevation: 9,
         }} variant="persistent"  >
             <Component>
-                <Section>
+                <Section onClick={() => { navigate('/') }}>
                     <FontAwesomeIcon icon={faRss} style={{ paddingRight: '20px', width: '20px' }} />
                     <Typography>Feed</Typography>
                 </Section>

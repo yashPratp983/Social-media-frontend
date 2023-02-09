@@ -89,7 +89,7 @@ const Comments = ({ comments, id, commentsState }) => {
                                 <div className={classes.profile}>
                                     <img src={comment.profilePic.url} className={classes.images}></img>
                                     <p style={{ paddingLeft: '10px' }}>{comment.name}</p>
-                                    <p style={{ marginLeft: 'auto' }}>15 mins ago</p>
+                                    {/* <p style={{ marginLeft: 'auto' }}>{comment.createdAt}</p> */}
                                 </div>
                                 <div className={classes.content}>
                                     <p className={classes.comment}>{comment.comment}</p>

@@ -43,9 +43,8 @@ const uploadPhoto = () => {
                         'authorisation': `Bearer ${token}`
                     }
                 })
-                const u = auth.user;
-                u.user = user.data.data.user;
-                auth.setUser(u);
+                console.log(user, "uploadphoto")
+                auth.setUser({ ...auth.user, user: { ...auth.user.user, profilePic: user.data.data.profilePic } });
                 console.log(user)
                 navigate('/description')
                 setDisabled(false)

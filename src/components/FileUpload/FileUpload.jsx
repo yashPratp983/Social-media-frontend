@@ -24,6 +24,7 @@ const FileUpload = () => {
     const [title, setTitle] = useState('');
     const [load, setLoad] = useState(false)
     const [description, setDescription] = useState('');
+    const [rerender, setRerender] = useState(false)
     console.log(Object(files[0]).type)
 
     const uploadPostHandler = async () => {
@@ -33,6 +34,7 @@ const FileUpload = () => {
         let i = 0;
         let v = 0;
         let res1, res2;
+
 
         files.map((file) => {
             if (Object(file).type == 'image/jpeg' || Object(file).type == 'image/png') {
@@ -118,9 +120,22 @@ const FileUpload = () => {
     }
 
     const uploadHandler = async (e) => {
+        if (Object(e.target.files[0]).type != 'image/jpeg' && Object(e.target.files[0]).type != 'image/png' && Object(e.target.files[0]).type != 'video/mp4' && Object(e.target.files[0]).type != 'video/ogg') {
+            toast.error('Please upload an image or video', {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            })
+            return
+        }
         const f = files;
-        f.push(e.target.files[0]);
-        setFile(e.target.files[0])
+        f.push(Object(e.target.files[0]));
+        setFile(Object(e.target.files[0]))
 
 
         setFiles(f);
@@ -128,8 +143,7 @@ const FileUpload = () => {
         // console.log(files.length)
         // console.log(e.target.files[0])
         setShow(f.length)
-        setIndex(1);
-        setIndex(0)
+
     }
 
     const leftHandler = () => {
@@ -151,6 +165,7 @@ const FileUpload = () => {
             // console.log(reader.result)
             // console.log(src)
             setSrc(s)
+            setRerender(!rerender)
         };
         reader.readAsDataURL(file);
     }, [file]);
@@ -175,7 +190,7 @@ const FileUpload = () => {
 
                         </div>
 
-                        <p className="info">Upload photos and videos with wonderful title and description</p>
+                        <p className="info">Upload photos and videos with wonderful title and description.<br></br><p style={{ color: "red", fontSize: '14px' }}>Only image/jpeg,image/png,video/mp4 or video/ogg files are accepted</p></p>
 
                         <button className='button1' onClick={() => { navigate('/') }}>
                             Cancel
