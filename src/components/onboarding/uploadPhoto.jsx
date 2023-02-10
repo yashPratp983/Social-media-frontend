@@ -8,6 +8,8 @@ import './uploadPhoto.scss'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../auth/auth';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const uploadPhoto = () => {
 
@@ -30,9 +32,10 @@ const uploadPhoto = () => {
         }
     };
     const submitHandler = async () => {
-        setDisabled(true)
-        setLoading(true)
+
         if (file) {
+            setDisabled(true)
+            setLoading(true)
             try {
                 const formData = new FormData();
                 formData.append('files', file);
@@ -54,9 +57,22 @@ const uploadPhoto = () => {
                 setDisabled(false)
                 setLoading(false)
                 console.log(err)
+                toast.error(`${err.response.data.error}`, {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
             }
         } else {
+            setDisabled(false)
+            setLoading(false)
             alert('Please upload an image')
+
         }
     }
     useEffect(() => {
@@ -74,39 +90,53 @@ const uploadPhoto = () => {
         reader.readAsDataURL(file);
     }, [file]);
     return (
-        <div className="fileDaddy">
+        <>
+            <div className="fileDaddy">
 
-            <div className="overlay">
-                <div className="file-card">
-                    {preview && <FontAwesomeIcon icon={faXmark} className="xmark" onClick={() => { setFile(null); setPreview(null) }} />}
-                    {preview && <img className='image' src={preview} alt="preview" />}
-                    {!preview &&
-                        <div className="file-inputs-parent">
-                            <div className="file-inputs">
-                                <input type="file" onChange={handleChange} />
-                                <button>
-                                    <i>
-                                        <FontAwesomeIcon icon={faPlus} />
-                                    </i>
-                                    Upload
-                                </button>
+                <div className="overlay">
+                    <div className="file-card">
+                        {preview && <FontAwesomeIcon icon={faXmark} className="xmark" onClick={() => { setFile(null); setPreview(null) }} />}
+                        {preview && <img className='image' src={preview} alt="preview" />}
+                        {!preview &&
+                            <div className="file-inputs-parent">
+                                <div className="file-inputs">
+                                    <input type="file" onChange={handleChange} />
+                                    <button>
+                                        <i>
+                                            <FontAwesomeIcon icon={faPlus} />
+                                        </i>
+                                        Upload
+                                    </button>
+                                </div>
+                                <p className="main">Upload your photo</p>
+                                <p className="info">This will be your profile photo</p>
+                                <p className="main">Supported files</p>
+                                <p className="info">PDF, JPG, PNG</p>
                             </div>
-                            <p className="main">Upload your photo</p>
-                            <p className="info">This will be your profile photo</p>
-                            <p className="main">Supported files</p>
-                            <p className="info">PDF, JPG, PNG</p>
-                        </div>
-                    }
+                        }
 
+                    </div>
+                    <div className='buttoms'>
+                        {!loading && <button className='buttom' type='button' onClick={() => { navigate('/description') }} >Skip</button>}
+                        {!loading && <button className='buttom2' type='button' onClick={submitHandler} disabled={disabled}>Next</button>}
+                        {loading && <div className="spin1" />}
+                    </div>
+                    {error && <div className="error">{error}</div>}
                 </div>
-                <div className='buttoms'>
-                    {!loading && <button className='buttom' type='button' onClick={() => { navigate('/description') }} >Skip</button>}
-                    {!loading && <button className='buttom2' type='button' onClick={submitHandler} disabled={disabled}>Next</button>}
-                    {loading && <div className="spin1" />}
-                </div>
-                {error && <div className="error">{error}</div>}
             </div>
-        </div>
+            <ToastContainer
+                position="bottom-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
+        </>
     );
 }
 

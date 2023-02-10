@@ -23,6 +23,7 @@ const EditEmailVerification = () => {
                 console.log(token, data)
             } catch (err) {
                 console.log(err)
+                navigate('/invalidToken')
             }
         }
         const getUser = async (tok) => {

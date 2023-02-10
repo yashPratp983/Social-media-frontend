@@ -31,6 +31,7 @@ import { createContext } from 'react'
 import { io } from "socket.io-client";
 import { useOnlineuser } from './contexts/onlineusers'
 import { useMessageNotification } from './contexts/messageNotification'
+import WrongUrl from './components/onboarding/confirmverification'
 
 export const allUsers = createContext()
 export const allNotifications = createContext()
@@ -172,13 +173,14 @@ function App() {
                 <Route path="/profile/:id" element={<Loading loading={loading}><AuthrequireLogin><Profile /></AuthrequireLogin></Loading>} />
                 <Route path="/editprofile" element={<Loading loading={loading}><AuthrequireLogin><EditProfile /></AuthrequireLogin></Loading>} />
                 <Route path="/fileupload" element={<Loading loading={loading}><AuthrequireLogin><FileUpload /></AuthrequireLogin></Loading>} />
-                <Route path="/emailverification/:token" element={<EmailVerification />} />
+                <Route path="/emailverification/:token" element={<Loading><EmailVerification /></Loading>} />
                 <Route path="/editemailverification/:token" element={<EditEmailVerification />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/resetpassword/:token" element={<ResetPassword />}></Route>
                 <Route path='/confirmverification' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification /></AuthrequireLogin></Loading>}></Route>
                 <Route path='/confirmverification2' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification2 /></AuthrequireLogin></Loading>}></Route>
                 <Route path='/chats' element={<Loading loading={loading}><AuthrequireLogin><Chats messageReceive={messageReceive} /></AuthrequireLogin></Loading>}></Route>
+                <Route path='/invalidToken' element={<Loading loading={loading}><WrongUrl /></Loading>}></Route>
               </Routes>
 
 

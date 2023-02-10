@@ -24,6 +24,7 @@ const EmailVerification = () => {
                 console.log(token, data)
             } catch (err) {
                 console.log(err)
+                navigate("/invalidToken")
             }
         }
         const getUser = async (tok) => {
@@ -36,6 +37,7 @@ const EmailVerification = () => {
 
             } catch (err) {
                 console.log(err)
+
             }
 
         }
