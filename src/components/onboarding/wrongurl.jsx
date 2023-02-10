@@ -7,7 +7,7 @@ const WrongUrl = () => {
         <div className={classes.parent}>
             <h1 className={classes.heading}>Invalid Token</h1>
             <p className={classes.para}>Your token is invalid.</p>
-            <button className={classes.button} onClick={() => { navigate('/login') }}></button>
+            <button className={classes.button} onClick={() => { navigate('/login') }}>Sign in</button>
         </div>
     );
 }
