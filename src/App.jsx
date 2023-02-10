@@ -177,10 +177,10 @@ function App() {
                 <Route path="/editemailverification/:token" element={<EditEmailVerification />} />
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/resetpassword/:token" element={<ResetPassword />}></Route>
-                <Route path='/confirmverification' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification /></AuthrequireLogin></Loading>}></Route>
+                <Route path='/confirmverification' element={<Loading loading={loading}><AuthrequireLogin><WrongUrl /></AuthrequireLogin></Loading>}></Route>
                 <Route path='/confirmverification2' element={<Loading loading={loading}><AuthrequireLogin><Confirmverification2 /></AuthrequireLogin></Loading>}></Route>
                 <Route path='/chats' element={<Loading loading={loading}><AuthrequireLogin><Chats messageReceive={messageReceive} /></AuthrequireLogin></Loading>}></Route>
-                <Route path='/invalidToken' element={<Loading loading={loading}><WrongUrl /></Loading>}></Route>
+                <Route path='/invalidToken' element={<Loading loading={loading}><Confirmverification /></Loading>}></Route>
               </Routes>
 
 
