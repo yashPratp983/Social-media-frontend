@@ -35,7 +35,7 @@ const Header = () => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const openNotify = Boolean(anchorEl);
     const searchRef = useRef()
-    const [focus, setFocus] = useState(false)
+    const [focus, setFocus] = useState(true)
 
     const handleClick = () => {
         setOpen(true)
@@ -63,28 +63,34 @@ const Header = () => {
     }
 
     const handleClick1 = async (id) => {
-        try {
-            const token = localStorage.getItem('token');
-            const accept = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/notifications/accept/${id}`, {
-                headers: {
-                    authorisation: `Bearer ${token}`
-                }
-            })
+        if (focus) {
+            try {
+                const token = localStorage.getItem('token');
+                setFocus(false)
+                const accept = await axios.put(`https://social-media-api-d16d.onrender.com/api/v1/notifications/accept/${id}`, {
+                    headers: {
+                        authorisation: `Bearer ${token}`
+                    }
+                })
 
-            let r = notifications.notifications.request;
 
-            r = r.filter((item) => item._id == id)
 
-            notifications.setNotifications({
-                ...notifications.notifications, request: r
-            })
+                let r = notifications.notifications.request;
 
-            const u = auth.user;
-            u.user.followers.push(id)
-            u.followers = u.followers + 1;
-            auth.setUser({ ...u, user: u.user, followers: u.followers })
-        } catch (err) {
-            console.log(err);
+                r = r.filter((item) => item._id == id)
+
+                notifications.setNotifications({
+                    ...notifications.notifications, request: r
+                })
+
+                const u = auth.user;
+                u.user.followers.push(id)
+                u.followers = u.followers + 1;
+                auth.setUser({ ...u, user: u.user, followers: u.followers })
+                setFocus(true)
+            } catch (err) {
+                console.log(err);
+            }
         }
 
 
