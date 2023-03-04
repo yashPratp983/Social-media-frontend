@@ -46,13 +46,14 @@ const Profile = () => {
                         authorisation: `Bearer ${token}`
                     }
                 })
-                console.log(user1, posts1)
+                console.log(user1, posts1, "profile")
 
                 setPosts(posts1.data.data);
 
                 setLoading(false)
             } catch (err) {
                 console.log(err)
+                setPosts([])
                 setLoading(false)
             }
         }
